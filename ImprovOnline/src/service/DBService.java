@@ -11,6 +11,7 @@ public class DBService {
 	String dbPassword = "";
 	
 	public boolean registerUser(User user){
+		System.out.println("Enter registerUser");
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
@@ -38,6 +39,8 @@ public class DBService {
 	}
 	
 	public String registerGuest(){
+		System.out.println("Enter registerGuest");
+
 		Random rand = new Random();
 		int id = rand.nextInt(999999) + 1;
 		String username = "Guest" + id;
@@ -75,6 +78,8 @@ public class DBService {
 	}
 
 	public boolean validateUser(String username, String password){
+		System.out.println("Enter validateUser");
+
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
@@ -101,8 +106,11 @@ public class DBService {
 	}
 	
 	public ArrayList<ChatRoom> getRooms(){
+		System.out.println("Enter getRooms");
+
 		ArrayList<ChatRoom> chatRooms = new ArrayList<>();
 		try{
+			
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
@@ -119,7 +127,7 @@ public class DBService {
 				if(rs1.next())
 					numPlayer = (int)(long)rs1.getObject(1);
 				
-				String sql2 = "SELECT COUNT(DISTINCT idSpectator)"
+				String sql2 = "SELECT COUNT(DISTINCT username)"
 			    		+ " FROM spectating where idChatroom = " + (int)rs.getObject("idChatrooms");
 				PreparedStatement pstmt2 = conn.prepareStatement(sql2);
 				ResultSet rs2 = pstmt2.executeQuery();
@@ -140,7 +148,9 @@ public class DBService {
 	}
 	
 	public ChatRoom getRoom(int id){
+
 		ChatRoom chatRoom = null;
+		System.out.println("Enters getRoom");
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
@@ -151,7 +161,7 @@ public class DBService {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()){
-				String sql1 = "SELECT COUNT(DISTINCT idPlayer)"
+				String sql1 = "SELECT COUNT(DISTINCT username)"
 			    		+ " FROM playing where idChatroom = " + id;
 				PreparedStatement pstmt1 = conn.prepareStatement(sql1);
 				ResultSet rs1 = pstmt1.executeQuery();
@@ -159,7 +169,7 @@ public class DBService {
 				if(rs1.next())
 					numPlayer = (int)(long)rs1.getObject(1);
 				
-				String sql2 = "SELECT COUNT(DISTINCT idSpectator)"
+				String sql2 = "SELECT COUNT(DISTINCT username)"
 			    		+ " FROM spectating where idChatroom = " + id;
 				PreparedStatement pstmt2 = conn.prepareStatement(sql2);
 				ResultSet rs2 = pstmt2.executeQuery();
@@ -182,7 +192,10 @@ public class DBService {
 	}
 	
 	public String getRandomPrompt(){
+
 		try{
+			System.out.println("Enters getRandomPrompts");
+
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
@@ -237,6 +250,8 @@ public class DBService {
 	} 
 	
 	public ArrayList<Message> getAllMessage(int chatid){
+		System.out.println("Enters getAllMessage");
+
 		ArrayList<Message> messages = new ArrayList<>();
 		
 		try{
@@ -262,6 +277,8 @@ public class DBService {
 	}
 	
 	public boolean addPlayerToRoom(String username, int chatId){
+		System.out.println("Enters addPlayerToRoom");
+
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
@@ -288,6 +305,8 @@ public class DBService {
 	}
 
 	public int getRoomPlayerCount(int chatid){
+		System.out.println("Enters room player count");
+
 		int numPlayer = 0;
 
 		try{
