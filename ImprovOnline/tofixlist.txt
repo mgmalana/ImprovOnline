@@ -6,3 +6,19 @@ room instructions to not show if refreshed
 cannot enter if not logged in
 logs out the guest if exited
 removes the player if exit the window
+a player can play on multiple windows
+forgot password
+fix all the headers of the pages
+if logged in but went to login.jsp. dpat ilogout niya
+if guest registered
+
+
+UI PROBS:
+maybe change the registration if wrong. i mean di lang siya read. like password must contain blabla
+if empty ang username or password, error
+fix the username sa header
+if press ang logo dpat go back to index
+
+
+responsiveness:
+footer. mas maganda sana kung nakadikit lang siya sa end

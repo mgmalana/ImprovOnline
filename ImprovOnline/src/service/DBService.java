@@ -265,7 +265,7 @@ public class DBService {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()){
-				messages.add(new Message((String)rs.getObject("user_name"), (String)rs.getObject("message"), ((Timestamp)rs.getObject("post_time")).toGMTString()));
+				messages.add(new Message((String)rs.getObject("user_name"), (String)rs.getObject("message"), ((Timestamp)rs.getObject("post_time")).toString()));
 			}
 			
 			conn.close();

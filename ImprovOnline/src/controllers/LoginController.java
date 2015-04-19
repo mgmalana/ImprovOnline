@@ -33,21 +33,27 @@ public class LoginController extends HttpServlet {
 		String usertype = request.getParameter("usertype");
 		DBService db = new DBService();
 		System.out.println("usertype = " + usertype);
-		if(db.validateUser(username, password)){
-			
+		if(usertype.equals("registered")){
+			if(db.validateUser(username, password)){
+				
+				HttpSession session = request.getSession();
+				session.setAttribute("user", username);
+				session.setAttribute("usertype", usertype);
+				response.sendRedirect("index");	
+				
+			} else {
+				System.out.println("Invalid user.");
+				request.setAttribute("error", "Invalid log-in details!");
+				request.setAttribute("error2", "Not yet registered? <a href='register'> Click here! </a>");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+				dispatcher.forward(request, response);
+			}
+		} else {
 			HttpSession session = request.getSession();
-			session.setAttribute("user", username);
+			session.setAttribute("user", db.registerGuest());
 			session.setAttribute("usertype", usertype);
 			response.sendRedirect("index");	
-			
-		} else {
-			System.out.println("Invalid user.");
-			request.setAttribute("error", "Invalid log-in details!");
-			request.setAttribute("error2", "Not yet registered? <a href='register'> Click here! </a>");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-			dispatcher.forward(request, response);
 		}
-		
 		
 	}
 	

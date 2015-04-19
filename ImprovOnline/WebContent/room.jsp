@@ -53,21 +53,21 @@
 	<body onload="start()">
 		<% System.out.println("chatroom: " + (request.getSession().getAttribute("idchat"))); %>
 		<div style="text-align:center">
-				<div id="horizontalbar">
-					<div class="float-left">
-						ImprovOnline
-					</div>
-					<div class="float-right">
-						<c:out value="${sessionScope.user}"></c:out>
-						<c:if test="${sessionScope.usertype == 'registered'}" >
-						<a href="logout.html">Log Out</a>
-						</c:if>
-						<c:if test="${sessionScope.usertype == 'guest'}" >
-						<a href="register.html">Sign Up</a>
-						<a href="login.html">Log in</a>
-						</c:if>
-					</div>
+			<div id="horizontalbar">
+				<div class="float-left">
+					ImprovOnline
 				</div>
+				<div class="float-right">
+					<c:out value="${sessionScope.user}"></c:out>
+					<c:if test="${sessionScope.usertype == 'registered'}" >
+					<a href="logout.jsp">Log Out</a>
+					</c:if>
+					<c:if test="${sessionScope.usertype == 'guest'}" >
+					<a href="registration.jsp">Sign Up</a>
+					<a href="login.jsp">Log in</a>
+					</c:if>
+				</div>
+			</div>
 		</div>
 		
 		<div id="divbody">

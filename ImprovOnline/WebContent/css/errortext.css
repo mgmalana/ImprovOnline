@@ -1,0 +1,7 @@
+#error {
+    background-color: red;
+}
+
+#noerror {
+    background-color: white;
+}

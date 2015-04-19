@@ -31,7 +31,7 @@
 				ImprovOnline
 			</div>
 			<div class="float-right">
-				<a href="sub/register.html">Sign Up</a>
+				<a href="registration.jsp">Sign Up</a>
 			</div>
 		</div>
 		

@@ -24,11 +24,11 @@
 				<div class="float-right">
 					<c:out value="${sessionScope.user}"></c:out>
 					<c:if test="${sessionScope.usertype == 'registered'}" >
-					<a href="logout.html">Log Out</a>
+					<a href="logout.jsp">Log Out</a>
 					</c:if>
 					<c:if test="${sessionScope.usertype == 'guest'}" >
-					<a href="register.html">Sign Up</a>
-					<a href="login.html">Log in</a>
+					<a href="registration.jsp">Sign Up</a>
+					<a href="login.jsp">Log in</a>
 					</c:if>
 				</div>
 			</div>
