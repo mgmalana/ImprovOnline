@@ -9,6 +9,8 @@
 	<link rel="stylesheet" type="text/css" href="css/button.css">
 	<link rel="stylesheet" type="text/css" href="css/textbox.css">
 	<link rel="stylesheet" type="text/css" href="css/errortext.css">
+   	<link rel="stylesheet" type="text/css" href="css/header.css">		
+	
 	<script src="js/jquery-2.1.1.js"></script>
 	<style type="text/css">
 		input{
@@ -48,6 +50,13 @@
 <body>
 <center>
 	<div id="logo">
+			<div id="horizontalbar">
+				<div class="float-left">
+					ImprovOnline
+				</div>
+				
+			</div>
+	
 		<h1>ImprovOnline</h1>
 		<form action="registration" method="POST" onSubmit = "return checkFormEntries()">
 		<p> <font color = "red"> ${error } </font> </p>

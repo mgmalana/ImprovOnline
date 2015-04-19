@@ -1,6 +1,5 @@
 Play as guest
 logout
-register
 not allow to enter if full
 room instructions to not show if refreshed
 cannot enter if not logged in
@@ -18,7 +17,7 @@ maybe change the registration if wrong. i mean di lang siya read. like password 
 if empty ang username or password, error
 fix the username sa header
 if press ang logo dpat go back to index
-
+clear the login details if redirect from other pages
 
 responsiveness:
 footer. mas maganda sana kung nakadikit lang siya sa end
