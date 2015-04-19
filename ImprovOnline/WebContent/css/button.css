@@ -1,0 +1,23 @@
+.btn{
+	background-color:#fa1414;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 20px;
+	padding-right: 20px; 
+	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	
+	font-family: Helvetica;
+	font-size: 20px;
+	
+	color: white;
+}
+
+.btn:hover{
+	font-weight:bold;
+}
+
+.btn:active{
+	font-size: 18px;
+}

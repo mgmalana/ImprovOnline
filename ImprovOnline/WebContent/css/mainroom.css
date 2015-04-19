@@ -1,0 +1,67 @@
+#left-container{
+	float:left;
+	width:50%;
+	margin-top: 5%;
+}
+
+#right-container{
+	margin-top: 3%;
+	overflow-y: scroll;
+	float:right;
+	width: 50%;
+	height: 450px;
+	overflow-x: none;
+}
+
+.room{
+	margin-left: -40px;
+	margin-bottom: 5px;
+	border: 1px solid black;
+	padding: 5px;
+	background-color:#F44040;
+	color: white;
+	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+
+.roomDetails{
+	position: relative;
+	float: left;
+}
+
+.roomStatus{
+	position: relative;
+	float: right;
+}
+
+.roomCount{
+	position: relative;
+	clear: both;
+	float: left;
+}
+
+.joinRoom{
+	position: relative;
+	float: right;
+}
+
+.joinRoom p{
+	display:inline;
+	color: white;
+	font-weight: bold;
+}
+
+.joinRoom a:hover{
+	font-size: 17px;
+}
+
+.blah{
+	clear: both;
+}
+
+ul li{
+	list-style-type:none;
+}
+

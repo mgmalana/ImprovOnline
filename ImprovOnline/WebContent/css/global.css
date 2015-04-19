@@ -1,0 +1,32 @@
+body, input, select, option, textarea{
+	font-family: Helvetica;
+	font-size: 20px;
+	background-color: #fff5f5;
+}
+
+#logo h1{ 
+	font-size: 100px; 
+	font-family: Aharoni
+	
+}
+
+#logo{
+	margin-top: 8%;
+}
+
+#logo form{
+	margin-top: -3%;
+}
+
+#logo p{
+	margin-top: -1%;
+}
+
+#footer{
+	font-size: 12px;
+	position: absolute;
+	bottom: 0px;
+	border-top: 1px black ridge;
+	padding-top: 10px;
+	width: 98%;
+}

@@ -1,0 +1,105 @@
+#divbody{
+	z-index: 1;
+}
+
+h5, #settings{
+	display:inline;
+}
+#settings{
+	float:right;
+	margin-bottom: 2px;
+}
+
+#settingspopup{
+	height: 100%;
+	width: 100%;
+	background-color: #cc0000;
+	position: absolute;
+	top: 10%;
+	left: auto;
+	right: auto;
+	color: white;
+	
+	opacity: 0.9;
+    filter: alpha(opacity=90);
+	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+#instructions{
+	margin-top: 3%;
+	width: 100%;
+	height: 85%;
+	font-size: 17px;
+	resize:none;
+}
+table{
+	width:94%;
+	height: 100%;
+}
+
+table tr td{
+	margin: 10px;
+	padding: 5px;
+}
+#popup{
+	
+	height:100%;
+	width:100%;
+	background-color: #cc0000;
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:9999;
+}
+
+#lefty{
+	position: relative;
+	float: left;
+	height: 70%;
+	width: 63%;
+	
+}
+
+#chatbox, #chatbox:active{
+	width: 100%;
+	height: 100%;
+	border: 1px solid #d3d3d3;
+}
+#chatinput{
+	margin-top: 7px;
+	width: 83%;
+	height: 30px;
+	border: 1px solid #d3d3d3;
+}
+#sendbutton{
+	width: 16%;
+}
+
+#righty{
+	position: relative;
+	float:right;
+	width: 33%;
+	margin-right: 3%;
+}
+
+#upper-right{
+	border: 1px solid #d3d3d3;
+	margin-top: 10%;
+	margin-bottom: 5%;
+	padding-top: 30%;
+	height: 17%;
+	padding: 8px;
+}
+
+#lower-right{
+	border: 1px solid #d3d3d3;
+	height: 60%;
+	padding: 8px;
+}
+
+p{
+	font-family: Helvetica;
+	font-size: 17px;
+}
