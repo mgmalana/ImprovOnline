@@ -1,5 +1,6 @@
 Play as guest
-logout
+time
+player list
 not allow to enter if full
 room instructions to not show if refreshed
 cannot enter if not logged in

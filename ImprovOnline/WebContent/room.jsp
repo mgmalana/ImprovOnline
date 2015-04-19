@@ -51,7 +51,6 @@
 		</script>
 	</head>
 	<body onload="start()">
-		<% System.out.println("chatroom: " + (request.getSession().getAttribute("idchat"))); %>
 		<div style="text-align:center">
 			<div id="horizontalbar">
 				<div class="float-left">
@@ -170,7 +169,7 @@
 		
 		function sendToServer(){
 			var request = "GET";
-			var url = "chatroom?text=" + document.getElementById("chatinput").value;
+			var url = "chatroom?text=" + document.getElementById("chatinput").value + "&idchat=" + '<c:out value="${idchat}"></c:out>';;
 			var isAsynchronous = true;
 			
 			xmlObject.open(request, url, isAsynchronous);
@@ -199,10 +198,10 @@
 		}
 		
 		function sendToServerRefresh(){
+
 			var request = "GET";
-			var url = "chatroomRefresh";
+			var url = "chatroomRefresh?idchat=" + '<c:out value="${idchat}"></c:out>';
 			var isAsynchronous = true;
-			
 			xmlObjectRefresh.open(request, url, isAsynchronous);
 			xmlObjectRefresh.onreadystatechange = receiveFromServerRefresh;
 			xmlObjectRefresh.send(null);

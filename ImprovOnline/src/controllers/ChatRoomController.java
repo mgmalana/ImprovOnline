@@ -35,7 +35,7 @@ public class ChatRoomController extends HttpServlet {
 		DBService db = new DBService();
 		HttpSession session = request.getSession();
 
-		int chatid = (int)session.getAttribute("idchat");
+		int chatid = Integer.parseInt(request.getParameter("idchat"));
 		
 		java.util.Date dt = new java.util.Date();
 		

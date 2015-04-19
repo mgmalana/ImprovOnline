@@ -78,7 +78,7 @@ public class RoomController extends HttpServlet {
 		HttpSession session = request.getSession();
 		int chatRoomId = Integer.parseInt(request.getParameter("idRoom"));
 		db.addPlayerToRoom((String)session.getAttribute("user"), chatRoomId);
-		session.setAttribute("idchat", chatRoomId);
+		request.setAttribute("idchat", chatRoomId);
 		System.out.println("session attribute idchat: " + session.getAttribute("idchat"));
 		
 		System.out.println(db.getRandomPrompt());

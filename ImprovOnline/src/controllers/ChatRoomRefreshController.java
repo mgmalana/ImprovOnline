@@ -37,8 +37,7 @@ public class ChatRoomRefreshController extends HttpServlet {
 		
 		String text = "";
 		DBService db = new DBService();
-		HttpSession session = request.getSession();
-		int chatid = (int)session.getAttribute("idchat");
+		int chatid = Integer.parseInt(request.getParameter("idchat"));
 
 		ArrayList<Message> messages = db.getAllMessage(chatid);
 		
