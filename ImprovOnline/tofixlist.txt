@@ -1,0 +1,8 @@
+Play as guest
+logout
+register
+not allow to enter if full
+room instructions to not show if refreshed
+cannot enter if not logged in
+logs out the guest if exited
+removes the player if exit the window
