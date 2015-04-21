@@ -11,6 +11,7 @@ forgot password
 fix all the headers of the pages
 if logged in but went to login.jsp. dpat ilogout niya
 if guest registered
+remove the getRoom player count part. since you should just count the stuff. or jk check if it's for the room.jsp
 
 
 UI PROBS:

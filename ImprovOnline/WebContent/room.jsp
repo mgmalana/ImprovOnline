@@ -93,11 +93,12 @@
 					<hr>
 					<p>
 						Players: (3)<br><br>
-						fallfaeryx,	notgracehelbig,	frozenflames
+						<div id ="userPlayers">
 					</p>
 					<hr>
 						<p>Spectators: (0)</p><br><br>
-					
+						<div id ="userSpectators">
+
 						Prompt: <c:out value="${prompt}"></c:out>
 				</div>
 				
@@ -181,9 +182,6 @@
 			switch(xmlObject.readyState){
 				case 4:
 					if(xmlObject.status == 200){
-						var xmlDocument = xmlObject.responseXML.documentElement;
-						var message = xmlDocument.firstChild.data;
-						//console.log(message);
 						
 //						document.getElementById("chatbox").innerText = message;
 //lagyan to ng if else depende sa game
@@ -212,10 +210,19 @@
 			case 4:
 				if(xmlObjectRefresh.status == 200){
 					var xmlDocument = xmlObjectRefresh.responseXML.documentElement;
-					var message = xmlDocument.firstChild.data;
+					var first =   xmlDocument.firstChild;
+					/*
+					for(i = 0; i < first.childNodes.length; i++){
+						
+						
+					}
+
 					//console.log(message);
 					
 					document.getElementById("chatbox").innerText = message;
+					document.getElementById("userPlayers").innerText = player;
+					document.getElementById("userSpectators").innerText = spectator;
+				*/
 				}
 			break;
 
