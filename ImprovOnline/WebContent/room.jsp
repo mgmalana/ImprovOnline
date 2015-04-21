@@ -204,19 +204,14 @@
 			switch(xmlObjectRefresh.readyState){
 			case 4:
 				if(xmlObjectRefresh.status == 200){
-					//alert(xmlObjectRefresh.responseText);
-			/* 		var jsonStr= xmlObjectRefresh.responseText;
-					var json=JSON.stringify(jsonStr);
-					json=JSON.parse(json);
-					alert(json[name]);
-					 */
+					var out = "";
 					var obj = JSON.parse(xmlObjectRefresh.responseText);
-					document.getElementById("chatbox").innerText = obj.messages;
+					for(i = 0; i < obj.messages.length; i++)
+						out += obj.messages[i].username +": "+ obj.messages[i].message+"\n";
+					//// you can edit the style or something if you want	
+					document.getElementById("chatbox").innerText = out;
 
 					
-					//var jsonObj = JSON.stringify(xmlObjectRefresh.responseText);
-					//var jsonObj = JSON.parse(jsonObj);
-					//alert(jsonObj,);
 				}
 			break;
 		}

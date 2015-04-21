@@ -2,6 +2,7 @@ package service;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import models.*;
@@ -326,5 +327,41 @@ public class DBService {
 		}
 		
 		return numPlayer;
+	}
+	
+	public HashMap <String, Boolean> getUsers(int id){ // string username, boolean isplayer
+		System.out.println("Enters getUsers");
+
+		HashMap <String, Boolean> chatUsers = new HashMap<>();
+		try{
+			String url="jdbc:mysql://localhost:3306/improvonline";
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
+			
+			
+			String sql1 = "SELECT DISTINCT username"
+		    		+ " FROM playing where idChatroom = " + id;
+			PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+			ResultSet rs1 = pstmt1.executeQuery();
+			
+			while(rs1.next())
+				chatUsers.put((String)rs1.getObject(1), true);
+			
+			String sql2 = "SELECT DISTINCT username"
+		    		+ " FROM spectating where idChatroom = " + id;
+			PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+			ResultSet rs2 = pstmt2.executeQuery();
+			
+			while(rs2.next())
+				chatUsers.put((String)rs2.getObject(1), true);
+
+			conn.close();
+			
+			return chatUsers;
+	    } catch (Exception e) {
+	        System.out.println("NEW ERROR!:::Error message: "+ e); 
+		} 
+		
+		return chatUsers;
 	}
 }

@@ -39,16 +39,20 @@ public class ChatRoomRefreshController extends HttpServlet {
 		String text = "";
 		DBService db = new DBService();
 		int chatid = Integer.parseInt(request.getParameter("idchat"));
-
+		
 		ArrayList<Message> messages = db.getAllMessage(chatid);
 		
-		for(Message message: messages){
-			text += message.getUsername()+ ": " + message.getMessage() + "\n";
+		if(messages.size() > 0);
+			text += "{\"username\":\""+ messages.get(0).getUsername() +"\", \"message\":\""
+					+ messages.get(0).getMessage() +"\"}";
+			for(Message message: messages.subList(1, messages.size())){
+				text += ",\n {\"username\":\""+ message.getUsername() +"\", \"message\":\""
+						+ StringEscapeUtils.escapeJson(message.getMessage()) +"\"}";
 		}
-		//text = ": lalla\n";
-		text = StringEscapeUtils.escapeJson(text);
-		System.out.println("{\"messages\": \"" + text + "\" "+ "}");
-		response.getWriter().println("{\"messages\": \"" + text + "\" "+ "}");
+		
+		//text = StringEscapeUtils.escapeJson(text);
+		System.out.println("{\"messages\":[ " + text + "]}");
+		response.getWriter().println("{\"messages\" :[ " + text + "]}");
 		response.getWriter().flush();
 	}
 
