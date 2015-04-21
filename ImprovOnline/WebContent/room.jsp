@@ -151,7 +151,7 @@
 		var xmlObject;
 		var xmlObjectRefresh;
 		var myVar;
-		
+		var lastmessage = 0;
 		
 		
 		function start(){
@@ -182,6 +182,7 @@
 				case 4:
 					if(xmlObject.status == 200){
 						document.getElementById("chatinput").value = "Yes, And";
+						chatbox.scrollTop = chatbox.scrollHeight;
 					}
 				break;
 			}
@@ -193,7 +194,7 @@
 		
 		function sendToServerRefresh(){
 			var request = "GET";
-			var url = "chatroomRefresh?idchat=" + '<c:out value="${idchat}"></c:out>';
+			var url = "chatroomRefresh?idchat=" + '<c:out value="${idchat}"></c:out>' + "&lastmessage=" + lastmessage;
 			var isAsynchronous = true;
 			xmlObjectRefresh.open(request, url, isAsynchronous);
 			xmlObjectRefresh.onreadystatechange = receiveFromServerRefresh;
@@ -209,8 +210,9 @@
 					for(i = 0; i < obj.messages.length; i++)
 						out += obj.messages[i].username +": "+ obj.messages[i].message+"\n";
 					//// you can edit the style or something if you want	
-					document.getElementById("chatbox").innerHTML = out;
-					
+					chatbox = document.getElementById("chatbox");
+					chatbox.innerHTML = chatbox.value + out;
+
 					////the users
 					out = "";
 					for(i = 0; i < obj.players.length; i++)
@@ -223,6 +225,9 @@
 						out += obj.spectators[i].username +", ";	
 					document.getElementById("spectators").innerHTML = out;
 					document.getElementById("numspectators").innerHTML = obj.spectators.length;
+					
+					//change the lastmessage id
+					lastmessage = obj.lastmessage[0].message;
 					
 				}
 			break;

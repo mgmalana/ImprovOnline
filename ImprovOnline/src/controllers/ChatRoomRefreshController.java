@@ -4,6 +4,7 @@ package controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
@@ -43,18 +44,31 @@ public class ChatRoomRefreshController extends HttpServlet {
 		String spectators = "";
 		DBService db = new DBService();
 		int chatid = Integer.parseInt(request.getParameter("idchat"));
+		int lastmessage = Integer.parseInt(request.getParameter("lastmessage"));
+
+		List<Message> messages = db.getAllMessage(chatid);
 		
-		ArrayList<Message> messages = db.getAllMessage(chatid);
-		
-		if(messages.size() > 0);
-			text += "{\"username\":\""+ messages.get(0).getUsername() +"\", \"message\":\""
-					+ messages.get(0).getMessage() +"\"}";
-		for(Message message: messages.subList(1, messages.size())){
-				text += ",\n {\"username\":\""+ message.getUsername() +"\", \"message\":\""
-						+ StringEscapeUtils.escapeJson(message.getMessage()) +"\"}";
-		}
+		if(messages.size() > 0){
+			if(lastmessage == 0)
+				lastmessage = messages.get(messages.size()-1).getId();
+			for(int i = messages.size()-1; i >= 0; i--) ///load the new messages lang
+				if(messages.get(i).getId() <= lastmessage){
+					messages = messages.subList(i + 1, messages.size());
+					break;
+				} else
+					lastmessage = messages.get(i).getId();
 			
-					
+			System.out.println(messages.size());
+			if(messages.size() > 0){
+				text += "{\"username\":\""+ messages.get(0).getUsername() +"\", \"message\":\""
+							+ messages.get(0).getMessage() +"\"}";
+				for(Message message: messages.subList(1, messages.size())){
+						text += ",\n {\"username\":\""+ message.getUsername() +"\", \"message\":\""
+								+ StringEscapeUtils.escapeJson(message.getMessage()) +"\"}";
+				}
+			}
+		}
+						
 		for (Entry<String, Boolean> entry : db.getUsers(chatid).entrySet()) {
 			String username = entry.getKey();
 			boolean isPlayer = entry.getValue();
@@ -64,15 +78,16 @@ public class ChatRoomRefreshController extends HttpServlet {
 			else
 				spectators += ",\n{\"username\":\""+ username +"\"}";
 		}
-
+		
 		if(players.length()>1) // if may players
 			players = players.substring(2);
 		if(spectators.length()>1) // if may players
 			spectators = spectators.substring(2);
 
 		//text = StringEscapeUtils.escapeJson(text);
-		//System.out.println("{\"messages\":[ " + text + "], \"players\":[ " + players + "], \"spectators\":[ " + spectators + "]}");
-		response.getWriter().println("{\"messages\":[ " + text + "], \"players\":[ " + players + "], \"spectators\":[ " + spectators + "]}");
+		System.out.println("{\"messages\":[ " + text + "], \"players\":[ " + players + "], \"spectators\":[ " + spectators + "], \"lastmessage\":[ {\"lastmessage\": "+ lastmessage+"}]}");
+		response.getWriter().println("{\"messages\":[ " + text + "], \"players\":[ " + players + "], \"spectators\":[ " + spectators + "], \"lastmessage\":[  {\"message\": "+ lastmessage+"} ]}");
+		
 		response.getWriter().flush();
 	}
 
