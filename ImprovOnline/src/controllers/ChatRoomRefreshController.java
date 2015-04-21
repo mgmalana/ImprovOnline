@@ -9,10 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import models.Message;
 import service.DBService;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  * Servlet implementation class MyServlet
@@ -44,8 +45,11 @@ public class ChatRoomRefreshController extends HttpServlet {
 		for(Message message: messages){
 			text += message.getUsername()+ ": " + message.getMessage() + "\n";
 		}
-		response.setContentType("text/xml");
-		response.getWriter().println("<msg>" + text + "</msg>");
+		//text = ": lalla\n";
+		text = StringEscapeUtils.escapeJson(text);
+		System.out.println("{\"messages\": \"" + text + "\" "+ "}");
+		response.getWriter().println("{\"messages\": \"" + text + "\" "+ "}");
+		response.getWriter().flush();
 	}
 
 }

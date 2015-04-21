@@ -181,12 +181,6 @@
 			switch(xmlObject.readyState){
 				case 4:
 					if(xmlObject.status == 200){
-						var xmlDocument = xmlObject.responseXML.documentElement;
-						var message = xmlDocument.firstChild.data;
-						//console.log(message);
-						
-//						document.getElementById("chatbox").innerText = message;
-//lagyan to ng if else depende sa game
 						document.getElementById("chatinput").value = "Yes, And";
 					}
 				break;
@@ -198,7 +192,6 @@
 		}
 		
 		function sendToServerRefresh(){
-
 			var request = "GET";
 			var url = "chatroomRefresh?idchat=" + '<c:out value="${idchat}"></c:out>';
 			var isAsynchronous = true;
@@ -208,17 +201,24 @@
 		}
 		
 		function receiveFromServerRefresh(){
-			switch(xmlObject.readyState){
+			switch(xmlObjectRefresh.readyState){
 			case 4:
 				if(xmlObjectRefresh.status == 200){
-					var xmlDocument = xmlObjectRefresh.responseXML.documentElement;
-					var message = xmlDocument.firstChild.data;
-					//console.log(message);
+					//alert(xmlObjectRefresh.responseText);
+			/* 		var jsonStr= xmlObjectRefresh.responseText;
+					var json=JSON.stringify(jsonStr);
+					json=JSON.parse(json);
+					alert(json[name]);
+					 */
+					var obj = JSON.parse(xmlObjectRefresh.responseText);
+					document.getElementById("chatbox").innerText = obj.messages;
+
 					
-					document.getElementById("chatbox").innerText = message;
+					//var jsonObj = JSON.stringify(xmlObjectRefresh.responseText);
+					//var jsonObj = JSON.parse(jsonObj);
+					//alert(jsonObj,);
 				}
 			break;
-
 		}
 			
 		}		
