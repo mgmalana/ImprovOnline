@@ -3,6 +3,8 @@ package controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,6 +39,8 @@ public class ChatRoomRefreshController extends HttpServlet {
 		System.out.println("Refresh!");
 		
 		String text = "";
+		String players = "";
+		String spectators = "";
 		DBService db = new DBService();
 		int chatid = Integer.parseInt(request.getParameter("idchat"));
 		
@@ -45,14 +49,30 @@ public class ChatRoomRefreshController extends HttpServlet {
 		if(messages.size() > 0);
 			text += "{\"username\":\""+ messages.get(0).getUsername() +"\", \"message\":\""
 					+ messages.get(0).getMessage() +"\"}";
-			for(Message message: messages.subList(1, messages.size())){
+		for(Message message: messages.subList(1, messages.size())){
 				text += ",\n {\"username\":\""+ message.getUsername() +"\", \"message\":\""
 						+ StringEscapeUtils.escapeJson(message.getMessage()) +"\"}";
 		}
-		
+			
+					
+		for (Entry<String, Boolean> entry : db.getUsers(chatid).entrySet()) {
+			String username = entry.getKey();
+			boolean isPlayer = entry.getValue();
+			
+			if(isPlayer)
+				players += ",\n{\"username\":\""+ username +"\"}";
+			else
+				spectators += ",\n{\"username\":\""+ username +"\"}";
+		}
+
+		if(players.length()>1) // if may players
+			players = players.substring(2);
+		if(spectators.length()>1) // if may players
+			spectators = spectators.substring(2);
+
 		//text = StringEscapeUtils.escapeJson(text);
-		System.out.println("{\"messages\":[ " + text + "]}");
-		response.getWriter().println("{\"messages\" :[ " + text + "]}");
+		//System.out.println("{\"messages\":[ " + text + "], \"players\":[ " + players + "], \"spectators\":[ " + spectators + "]}");
+		response.getWriter().println("{\"messages\":[ " + text + "], \"players\":[ " + players + "], \"spectators\":[ " + spectators + "]}");
 		response.getWriter().flush();
 	}
 

@@ -92,12 +92,12 @@
 					</p>
 					<hr>
 					<p>
-						Players: (3)<br><br>
-						fallfaeryx,	notgracehelbig,	frozenflames
+						Players: (<span id ="numplayers"></span>)<br>
+						<div id = "players"></div>
 					</p>
 					<hr>
-						<p>Spectators: (0)</p><br><br>
-					
+						<p>Spectators:  (<span id ="numspectators"></span>)</p><br>
+						<div id = "spectators"></div>
 						Prompt: <c:out value="${prompt}"></c:out>
 				</div>
 				
@@ -209,8 +209,20 @@
 					for(i = 0; i < obj.messages.length; i++)
 						out += obj.messages[i].username +": "+ obj.messages[i].message+"\n";
 					//// you can edit the style or something if you want	
-					document.getElementById("chatbox").innerText = out;
+					document.getElementById("chatbox").innerHTML = out;
+					
+					////the users
+					out = "";
+					for(i = 0; i < obj.players.length; i++)
+						out += obj.players[i].username +", ";	
+					document.getElementById("players").innerHTML = out;
+					document.getElementById("numplayers").innerHTML = obj.players.length;
 
+					out = "";
+					for(i = 0; i < obj.spectators.length; i++)
+						out += obj.spectators[i].username +", ";	
+					document.getElementById("spectators").innerHTML = out;
+					document.getElementById("numspectators").innerHTML = obj.spectators.length;
 					
 				}
 			break;
