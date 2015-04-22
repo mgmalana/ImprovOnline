@@ -1,19 +1,15 @@
 add spectator // kasi nilalaagay niya lang sa playing palagi
 //dont forget onunload rin ng spectator
 handle if your turn and exited
-edit settings
+pag magchange  ng settings. refresh na lang lahat. kasi lazy. or idk how to implement this shit
 not allow to enter if full
 cannot enter if not logged in
 a player can play on multiple windows
-if logged in but went to login.jsp. dpat ilogout niya
-if guest registered
-index - not started / started game. di pa nahahandle
 spectator can suggest prompts
 di dapat pwede 1 player and two windows same game?
 if kaya sana. may 1 minute intervals or something before the game can start again
 clear chat database //i dont know when tho
 forgot password
-pag magchange  ng settings. refresh na lang lahat. kasi lazy
 naguupdate ang turn kahit blank ang sinend
 
 UI PROBS:

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import models.ChatRoom;
 import service.DBService;
 
 /**
@@ -30,6 +31,14 @@ public class RoomController extends HttpServlet {
     }	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		DBService db = new DBService();
+		ChatRoom  chatroom = db.getRoom(Integer.parseInt(request.getParameter("idRoom")));
+		
+		//if full
+		if(chatroom.getMaxPlayers() <= chatroom.getNumPlayers() || chatroom.getMaxSpectators() <= chatroom.getNumSpectators())
+			response.sendRedirect("index.jsp");	
+		
+		
 		if(request.getParameter("roomGame").equals("Alphabet Game")){
 			request.setAttribute("instructions", "Each player takes turns in giving lines to create a scene. But here's the catch - the players must work together to spell the alphabet using the first letters of the first word of each turn!\n" + 
 					"\n" + 
@@ -73,14 +82,13 @@ public class RoomController extends HttpServlet {
 				"And so on...");
 		}
 		
-		DBService db = new DBService();
 		HttpSession session = request.getSession();
 		int chatRoomId = Integer.parseInt(request.getParameter("idRoom"));
 		db.addPlayerToRoom((String)session.getAttribute("user"), chatRoomId);
 		request.setAttribute("idchat", chatRoomId);
 		System.out.println("session attribute idchat: " + session.getAttribute("idchat"));
 		
-		request.setAttribute("chatRoom", db.getRoom(Integer.parseInt(request.getParameter("idRoom"))));
+		request.setAttribute("chatRoom", chatroom);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("room.jsp");
 		dispatcher.forward(request, response);
 
