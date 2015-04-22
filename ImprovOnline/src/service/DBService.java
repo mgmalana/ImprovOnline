@@ -413,15 +413,6 @@ public class DBService {
 
 			pstmt.executeUpdate();
 			
-			System.out.println("clearing messages");
-			String sql3 = "DELETE FROM message where chat_id = " + chatId;
-			PreparedStatement pstmt3 = conn.prepareStatement(sql3);
-			pstmt3.executeUpdate();
-			
-			
-			
-			
-			
 			
 			conn.close();
 			System.out.println("startGame successful");
@@ -520,6 +511,12 @@ public class DBService {
 			pstmt1.setBoolean(1, false);
 			pstmt1.setInt(2, chatId);
 			pstmt1.executeUpdate();
+			
+			System.out.println("clearing messages");
+			String sql3 = "DELETE FROM message where chat_id = " + chatId;
+			PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+			pstmt3.executeUpdate();
+			
 			
 		} catch (Exception e) {
 		        System.out.println("NEW ERROR!:::Error message: "+ e); 
