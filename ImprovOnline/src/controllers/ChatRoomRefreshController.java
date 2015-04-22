@@ -2,6 +2,7 @@ package controllers;
 
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -10,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import models.ChatRoomPromptAndTime;
 import models.Message;
@@ -37,7 +39,8 @@ public class ChatRoomRefreshController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Refresh!");
-		
+		HttpSession session = request.getSession();
+
 		String text = "";
 		String players = "";
 		String spectators = "";
@@ -60,6 +63,7 @@ public class ChatRoomRefreshController extends HttpServlet {
 			}
 			else
 			gameHasStarted = ", \"gameHasStarted\":[  {\"prompt\": \""+ chat.getPrompt()+"\", \"timeleft\": \""+ chat.getTimeRemaining()+"\", \"usernameturn\": \""+ chat.getTurn()+"\", \"currentLetter\": \""+ chat.getCurrentLetter()+"\"} ]";
+			
 		}
 		
 		List<Message> messages = db.getAllMessage(chatid);
@@ -84,8 +88,13 @@ public class ChatRoomRefreshController extends HttpServlet {
 				}
 			}
 		}
-						
-		for (Entry<String, Boolean> entry : db.getUsers(chatid).entrySet()) {
+		HashMap <String, Boolean> users = db.getUsers(chatid);
+		
+		if(!(users.keySet().contains(chat.getTurn()) && users.get(chat.getTurn()))){
+			db.updateUserTurn(chatid, chat.getTurn());
+		}
+			
+		for (Entry<String, Boolean> entry : users.entrySet()) {
 			String username = entry.getKey();
 			boolean isPlayer = entry.getValue();
 			
