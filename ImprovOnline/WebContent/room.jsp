@@ -196,13 +196,15 @@
 		
 		
 		function sendToServer(){
-			var request = "GET";
-			var url = "chatroom?text=" + document.getElementById("chatinput").value + "&idchat=" + '<c:out value="${idchat}"></c:out>';
-			var isAsynchronous = true;
-			
-			xmlObject.open(request, url, isAsynchronous);
-			xmlObject.onreadystatechange = receiveFromServer;
-			xmlObject.send(null);
+			if(document.getElementById("chatinput").value.length > 0){
+				var request = "GET";
+				var url = "chatroom?text=" + document.getElementById("chatinput").value + "&idchat=" + '<c:out value="${idchat}"></c:out>';
+				var isAsynchronous = true;
+				
+				xmlObject.open(request, url, isAsynchronous);
+				xmlObject.onreadystatechange = receiveFromServer;
+				xmlObject.send(null);
+			}
 		}
 		
 		function receiveFromServer(){
@@ -248,7 +250,7 @@
 						out += obj.messages[i].username +": "+ obj.messages[i].message+"\n";
 					//// you can edit the style or something if you want	
 					chatbox = document.getElementById("chatbox");
-					chatbox.innerHTML = out;
+					chatbox.innerHTML = chatbox.value + out;
 
 					////the users
 					out = "";

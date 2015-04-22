@@ -2,8 +2,6 @@ add spectator // kasi nilalaagay niya lang sa playing palagi
 //dont forget onunload rin ng spectator
 pag magchange  ng settings. refresh na lang lahat. kasi lazy. or idk how to implement this shit
 spectator can suggest prompts
-if kaya sana. may 1 minute intervals or something before the game can start again
-clear chat database //baka when new round. pweds na yan
 forgot password
 naguupdate ang turn kahit blank ang sinend
 

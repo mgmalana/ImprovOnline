@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import models.ChatRoomPromptAndTime;
 import models.Message;
@@ -39,7 +38,6 @@ public class ChatRoomRefreshController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Refresh!");
-		HttpSession session = request.getSession();
 
 		String text = "";
 		String players = "";
@@ -69,6 +67,16 @@ public class ChatRoomRefreshController extends HttpServlet {
 		List<Message> messages = db.getAllMessage(chatid);
 		
 		if(messages.size() > 0){
+			if(lastmessage == 0)
+				lastmessage = messages.get(messages.size()-1).getId();
+			for(int i = messages.size()-1; i >= 0; i--) ///load the new messages lang
+				if(messages.get(i).getId() <= lastmessage){
+					messages = messages.subList(i + 1, messages.size());
+					break;
+				} else
+					lastmessage = messages.get(i).getId();
+			
+			System.out.println(messages.size());
 			if(messages.size() > 0){
 				text += "{\"username\":\""+ messages.get(0).getUsername() +"\", \"message\":\""
 							+ messages.get(0).getMessage() +"\"}";
