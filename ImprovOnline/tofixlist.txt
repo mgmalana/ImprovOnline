@@ -2,13 +2,10 @@ add spectator // kasi nilalaagay niya lang sa playing palagi
 //dont forget onunload rin ng spectator
 handle if your turn and exited
 pag magchange  ng settings. refresh na lang lahat. kasi lazy. or idk how to implement this shit
-not allow to enter if full
-cannot enter if not logged in
-a player can play on multiple windows
 spectator can suggest prompts
 di dapat pwede 1 player and two windows same game?
 if kaya sana. may 1 minute intervals or something before the game can start again
-clear chat database //i dont know when tho
+clear chat database //baka when new round. pweds na yan
 forgot password
 naguupdate ang turn kahit blank ang sinend
 
@@ -31,7 +28,8 @@ can you test na rin yugn headers. if sign up log in whatevs
 palagay na lang ng forgot password //im tired.
 sabihin siguro sa room na nagstart or wala pa ang game
 alert or something pag mag change prompt sa cards
-
+lagyan ng error message kung full na. ang code nasa room controller
+ugh and the centers. yung sa index. yung name ng game
 responsiveness:
 footer. mas maganda sana kung nakadikit lang siya sa end
 

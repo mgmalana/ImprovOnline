@@ -8,6 +8,9 @@
     <filter-name>SessionCheckFilter</filter-name>
     <url-pattern>/index.jsp</url-pattern>
     <url-pattern>/index</url-pattern>
+    <url-pattern>/room</url-pattern>
+    <url-pattern>/index</url-pattern>
+    
     <url-pattern></url-pattern>
     
   </filter-mapping>
