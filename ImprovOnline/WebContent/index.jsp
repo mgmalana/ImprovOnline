@@ -13,7 +13,9 @@
         <link rel="stylesheet" href="carousel/csss_engine1/style.css">
     	<link rel="stylesheet" type="text/css" href="css/header.css">		
 		
+		<script>
 		
+		</script>
 	</head>
 	<body>
 		<div style="text-align:center">

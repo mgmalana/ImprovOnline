@@ -22,6 +22,13 @@
 			body, divbody{
 				overflow:hidden;
 			}
+			
+			<c:if test="${param['roomGame'] == 'Word Association'}">
+				#prompty {
+				    display: none;
+				}
+			</c:if>
+						
 		</style>
 		<script src="js/jquery-2.1.1.js"></script>
 		<script type="text/javascript">
@@ -98,8 +105,7 @@
 					<hr>
 						<p>Spectators:  (<span id ="numspectators"></span>)</p><br>
 						<div id = "spectators"></div>
-						Prompt: <span id="gameprompt"></span>
-						
+						<span id="prompty">Prompt: <span id="gameprompt"></span></span>
 						<div id= "userturn"></div>
 						<input type="button" class="btn" id="startbutton" value="Start" onclick="startgame()">
 					
@@ -139,7 +145,7 @@
 			Game Type: 
 			<select>
 				<option>Word Association</option>
-				<option>Yes, And...</option>
+				<option>Yes, And</option>
 				<option>Alphabet Game</option>
 				<option>Cards</option>
 				
@@ -155,7 +161,9 @@
 		var xmlObject;
 		var xmlObjectRefresh;
 		var exitObject;
+		var changePrompt;
 		var myVar;
+		var myVar1;
 		var lastmessage = 0;
 		var isStartButtonPressed = false;
 		
@@ -177,6 +185,7 @@
 		
 		function startgame(){
 			isStartButtonPressed = true;
+			refreshPrompt();
 		}
 		
 		
@@ -194,7 +203,10 @@
 			switch(xmlObject.readyState){
 				case 4:
 					if(xmlObject.status == 200){
-						document.getElementById("chatinput").value = "Yes, And";
+						if('<c:out value="${param['roomGame']}"></c:out>' == 'Yes, And')
+							document.getElementById("chatinput").value = "Yes, And";
+						else
+							document.getElementById("chatinput").value = "";
 						chatbox.scrollTop = chatbox.scrollHeight;
 					}
 				break;
@@ -204,6 +216,12 @@
 		function refresh(){
 			myVar = setInterval(sendToServerRefresh, 1000);
 		}
+		
+		function refreshPrompt(){
+			if('<c:out value="${param['roomGame']}"></c:out>' == 'Cards')
+				myVar1 = setInterval(changePrompt, 10000);
+		}
+		
 		
 		function sendToServerRefresh(){
 			var request = "GET";
@@ -249,11 +267,13 @@
 					if(obj.hasOwnProperty("gameHasStarted")){
 						document.getElementById("gameprompt").innerHTML = obj.gameHasStarted[0].prompt;
 						document.getElementById("timeleft").innerHTML = obj.gameHasStarted[0].timeleft;
-						if(obj.gameHasStarted[0].usernameturn.length < 2)
-							document.getElementById("userturn").innerHTML = "";
-						else
-							document.getElementById("userturn").innerHTML = obj.gameHasStarted[0].usernameturn+"'s turn";
-						
+						if('<c:out value="${param['roomGame']}"></c:out>' != 'Cards'){
+							if(obj.gameHasStarted[0].usernameturn.length < 2){
+								document.getElementById("userturn").innerHTML = "";
+							}
+							else
+								document.getElementById("userturn").innerHTML = obj.gameHasStarted[0].usernameturn+"'s turn";
+						}
 					}
 				}
 			break;
@@ -270,7 +290,14 @@
 			exitObject.send(null);
 		}
 		
-		
+		function changePrompt(){
+			var request = "GET";
+			var url = "changePrompt?idchat=" + '<c:out value="${idchat}"></c:out>';
+			var isAsynchronous = true;
+			
+			exitObject.open(request, url, isAsynchronous);
+			exitObject.send(null);
+		}
 	
 	</script>
 	

@@ -1,19 +1,20 @@
-clear chat database //i dont know when tho
+different gamesss
 add spectator // kasi nilalaagay niya lang sa playing palagi
 //dont forget onunload rin ng spectator
 handle if your turn and exited
+edit settings
 not allow to enter if full
 cannot enter if not logged in
 a player can play on multiple windows
-forgot password
 if logged in but went to login.jsp. dpat ilogout niya
 if guest registered
 index - not started / started game. di pa nahahandle
 spectator can suggest prompts
 di dapat pwede 1 player and two windows same game?
 if kaya sana. may 1 minute intervals or something before the game can start again
-sabihin siguro sa room na nagstart or wala pa ang game
-remove getrandomprompt
+clear chat database //i dont know when tho
+forgot password
+pag magchange  ng settings. refresh na lang lahat. kasi lazy
 
 UI PROBS:
 pwede sana view ulit instructions during game.
@@ -32,6 +33,8 @@ pag hindi nila turn. dapat iba yung font or something
 who's turn. pag sarili. my turn dapat
 can you test na rin yugn headers. if sign up log in whatevs
 palagay na lang ng forgot password //im tired.
+sabihin siguro sa room na nagstart or wala pa ang game
+alert or something pag mag change prompt sa cards
 
 responsiveness:
 footer. mas maganda sana kung nakadikit lang siya sa end

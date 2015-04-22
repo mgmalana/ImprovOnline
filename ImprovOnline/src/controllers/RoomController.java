@@ -62,15 +62,15 @@ public class RoomController extends HttpServlet {
 					"Link: Yes, and to be stuck with that weird girl from 5th period? No thank you!\n" + 
 					"Rhett: Yes, but you have to admit - she's kinda cute right?\n" + 
 					"And so on...");
-		} else if(request.getParameter("roomGame").equals("Each player takes turns giving lines. But, the line should be associated to at least one word from the previous player's line! \n" + 
+		} else if(request.getParameter("roomGame").equals("Word Association")){
+			request.setAttribute("instructions","Each player takes turns giving lines. But, the line should be associated to at least one word from the previous player's line! \n" + 
 				"\n" + 
 				"Example:\n" + 
 				"Jenna: Is class over yet?\n" + 
 				"Julien: No, but I'm still not over how Charles and Alli broke up. Can you believe it?\n" + 
 				"Jenna: Uhm, yeah. Hey, can you check my computer? I think I broke it.\n" + 
 				"Julien: Your computer is fine. But we should go check on Charles and Alli. Last I heard, they were fighting on Twitter.\n" + 
-				"And so on...")){
-			request.setAttribute("instructions", "*insert here instructions*");
+				"And so on...");
 		}
 		
 		DBService db = new DBService();
