@@ -54,7 +54,7 @@ public class ChatRoomRefreshController extends HttpServlet {
 		
 		ChatRoomPromptAndTime chat = db.getPromptAndTime(chatid);
 		if(chat.hasStarted()){
-			gameHasStarted = ", \"gameHasStarted\":[  {\"prompt\": \""+ chat.getPrompt()+"\", \"timeleft\": \""+ chat.getTimeRemaining()+"\"} ]";
+			gameHasStarted = ", \"gameHasStarted\":[  {\"prompt\": \""+ chat.getPrompt()+"\", \"timeleft\": \""+ chat.getTimeRemaining()+"\", \"usernameturn\": \""+ chat.getTurn()+"\"} ]";
 		}
 		
 		List<Message> messages = db.getAllMessage(chatid);

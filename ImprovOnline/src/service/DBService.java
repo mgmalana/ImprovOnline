@@ -396,7 +396,7 @@ public class DBService {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 			String prompt = "";
-			
+			String usernamewithturn ="";
 			
 			//PROMPT
 			String sql1 = "SELECT prompt\n" + 
@@ -413,6 +413,16 @@ public class DBService {
 			if(rs1.next())
 				prompt = (String)rs1.getObject(1);
 			
+			String sql2 = "SELECT DISTINCT username"
+		    		+ " FROM playing where idChatroom = " + chatId;
+			PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+			ResultSet rs2 = pstmt2.executeQuery();
+			
+			if(rs2.next())
+				usernamewithturn = rs2.getString(1);
+			
+			
+			
 			//DATE
 			java.util.Date dt = new java.util.Date();
 
@@ -422,14 +432,15 @@ public class DBService {
 			String currentTime = sdf.format(dt);
 			
 			String sql = "UPDATE chatrooms"
-					+ " SET hasGameStarted = ?, prompt = ?, starttime = ?"
+					+ " SET hasGameStarted = ?, prompt = ?, starttime = ?, usernamewithturn = ?"
 					+ " WHERE idchatrooms = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setBoolean(1, true);
 			pstmt.setString(2, prompt);
 			pstmt.setString(3, currentTime);
-			pstmt.setInt(4, chatId);
-			
+			pstmt.setString(4, usernamewithturn);
+			pstmt.setInt(5, chatId);
+
 			pstmt.executeUpdate();
 			conn.close();
 			System.out.println("startGame successful");
@@ -449,13 +460,13 @@ public class DBService {
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
-			String sql = "SELECT prompt, hasgamestarted, starttime, gametime"
+			String sql = "SELECT prompt, hasgamestarted, starttime, gametime, usernamewithturn"
 		    		+ " FROM chatrooms where idChatrooms = " + chatid;
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next())
 				return new ChatRoomPromptAndTime(rs.getBoolean("hasgamestarted"),
-						rs.getString("prompt"), rs.getDouble("gametime"), rs.getTimestamp("starttime"));
+						rs.getString("prompt"), rs.getDouble("gametime"), rs.getTimestamp("starttime"), rs.getString("usernamewithturn"));
 			
 			conn.close();
 	    } catch (Exception e) {

@@ -8,15 +8,17 @@ public class ChatRoomPromptAndTime {
 	String prompt;
 	double gametime;
 	Timestamp timestarted;
+	String turn;
 	
 	
 	public ChatRoomPromptAndTime(boolean hasStarted, String prompt,
-			double gametime, Timestamp timestarted) {
+			double gametime, Timestamp timestarted, String turn) {
 		super();
 		this.hasStarted = hasStarted;
 		this.prompt = prompt;
 		this.gametime = gametime;
 		this.timestarted = timestarted;
+		this.turn = turn;
 	}
 	public boolean hasStarted() {
 		return hasStarted;
@@ -29,6 +31,9 @@ public class ChatRoomPromptAndTime {
 	}
 	public Timestamp getTimestarted() {
 		return timestarted;
+	}
+	public String getTurn(){
+		return turn;
 	}
 	
 	public String getTimeRemaining(){

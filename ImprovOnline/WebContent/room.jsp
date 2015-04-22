@@ -98,9 +98,9 @@
 					<hr>
 						<p>Spectators:  (<span id ="numspectators"></span>)</p><br>
 						<div id = "spectators"></div>
-						Prompt: <span id="gameprompt"></span><br>
+						Prompt: <span id="gameprompt"></span>
 						
-						
+						<div id= "userturn"></div>
 						<input type="button" class="btn" id="startbutton" value="Start" onclick="startgame()">
 					
 				</div>
@@ -249,6 +249,7 @@
 					if(obj.hasOwnProperty("gameHasStarted")){
 						document.getElementById("gameprompt").innerHTML = obj.gameHasStarted[0].prompt;
 						document.getElementById("timeleft").innerHTML = obj.gameHasStarted[0].timeleft;
+						document.getElementById("userturn").innerHTML = obj.gameHasStarted[0].usernameturn+"'s turn";
 						
 					}
 				}
