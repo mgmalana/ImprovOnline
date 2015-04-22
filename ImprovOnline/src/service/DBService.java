@@ -374,7 +374,6 @@ public class DBService {
 			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 
 			String sql = "DELETE FROM playing where username = '" +username +"' AND idChatroom = " + chatId;
-			System.out.println(sql);
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
 			pstmt.executeUpdate();
@@ -387,5 +386,82 @@ public class DBService {
 		}
 		
 		return false;
+	} 
+	
+	public boolean startGame(int chatId){
+		System.out.println("Enters startGame");
+
+		try{
+			String url="jdbc:mysql://localhost:3306/improvonline";
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			String prompt = "";
+			
+			
+			//PROMPT
+			String sql1 = "SELECT prompt\n" + 
+		    		"  FROM prompts AS r1 JOIN\n" + 
+		    		"       (SELECT CEIL(RAND() *\n" + 
+		    		"                     (SELECT MAX(idPrompts)\n" + 
+		    		"                        FROM prompts)) AS idPrompts)\n" + 
+		    		"        AS r2\n" + 
+		    		" WHERE r1.idPrompts >= r2.idPrompts\n" + 
+		    		" ORDER BY r1.idPrompts ASC\n" + 
+		    		" LIMIT 1";
+			PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+			ResultSet rs1 = pstmt1.executeQuery();
+			if(rs1.next())
+				prompt = (String)rs1.getObject(1);
+			
+			//DATE
+			java.util.Date dt = new java.util.Date();
+
+			java.text.SimpleDateFormat sdf = 
+			     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			String currentTime = sdf.format(dt);
+			
+			String sql = "UPDATE chatrooms"
+					+ " SET hasGameStarted = ?, prompt = ?, starttime = ?"
+					+ " WHERE idchatrooms = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setBoolean(1, true);
+			pstmt.setString(2, prompt);
+			pstmt.setString(3, currentTime);
+			pstmt.setInt(4, chatId);
+			
+			pstmt.executeUpdate();
+			conn.close();
+			System.out.println("startGame successful");
+			return true;
+		}
+		catch(Exception e){
+			System.out.println("startGame error: " + e.getMessage());
+		}
+		
+		return false;
 	}
+	
+	public ChatRoomPromptAndTime getPromptAndTime(int chatid){
+		System.out.println("Enters getPromptAndTime");
+
+		try{
+			String url="jdbc:mysql://localhost:3306/improvonline";
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
+			String sql = "SELECT prompt, hasgamestarted, starttime, gametime"
+		    		+ " FROM chatrooms where idChatrooms = " + chatid;
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next())
+				return new ChatRoomPromptAndTime(rs.getBoolean("hasgamestarted"),
+						rs.getString("prompt"), rs.getDouble("gametime"), rs.getTimestamp("starttime"));
+			
+			conn.close();
+	    } catch (Exception e) {
+	        System.out.println("NEW ERROR!:::Error message: "+ e); 
+		}
+		
+		return null;
+	}	
 }

@@ -98,7 +98,11 @@
 					<hr>
 						<p>Spectators:  (<span id ="numspectators"></span>)</p><br>
 						<div id = "spectators"></div>
-						Prompt: <c:out value="${prompt}"></c:out>
+						Prompt: <span id="gameprompt"></span><br>
+						
+						
+						<input type="button" class="btn" id="startbutton" value="Start" onclick="startgame()">
+					
 				</div>
 				
 			</div>
@@ -153,8 +157,7 @@
 		var exitObject;
 		var myVar;
 		var lastmessage = 0;
-		var start;
-		var elapsed;
+		var isStartButtonPressed = false;
 		
 		function start(){
 			if(window.XMLHttpRequest){
@@ -168,11 +171,12 @@
 				exitObject = new ActiveXObject("MICROSOFT.XMLHTTP");
 
 			}
-			//set timer
-			start = new Date().getTime();
-			elapsed = '0.0';
-			
+			//set timer			
 			refresh();
+		}
+		
+		function startgame(){
+			isStartButtonPressed = true;
 		}
 		
 		
@@ -203,7 +207,7 @@
 		
 		function sendToServerRefresh(){
 			var request = "GET";
-			var url = "chatroomRefresh?idchat=" + '<c:out value="${idchat}"></c:out>' + "&lastmessage=" + lastmessage;
+			var url = "chatroomRefresh?idchat=" + '<c:out value="${idchat}"></c:out>' + "&lastmessage=" + lastmessage + "&ispressed=" + isStartButtonPressed;
 			var isAsynchronous = true;
 			xmlObjectRefresh.open(request, url, isAsynchronous);
 			xmlObjectRefresh.onreadystatechange = receiveFromServerRefresh;
@@ -239,13 +243,14 @@
 					
 					//change the lastmessage id
 					lastmessage = obj.lastmessage[0].message;
-
-					var time = new Date().getTime() - start;
-					elapsed = Math.floor(time / 100) / 10;
-				    if(Math.round(elapsed) == elapsed)
-				    	elapsed += '.0';
-					document.getElementById("timeleft").innerHTML = elapsed;
 					
+					isStartButtonPressed = false;
+					
+					if(obj.hasOwnProperty("gameHasStarted")){
+						document.getElementById("gameprompt").innerHTML = obj.gameHasStarted[0].prompt;
+						document.getElementById("timeleft").innerHTML = obj.gameHasStarted[0].timeleft;
+						
+					}
 				}
 			break;
 		}

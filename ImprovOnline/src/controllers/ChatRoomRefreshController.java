@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.ChatRoomPromptAndTime;
 import models.Message;
 import service.DBService;
 
@@ -40,10 +41,22 @@ public class ChatRoomRefreshController extends HttpServlet {
 		String text = "";
 		String players = "";
 		String spectators = "";
+		String gameHasStarted ="";
 		DBService db = new DBService();
 		int chatid = Integer.parseInt(request.getParameter("idchat"));
 		int lastmessage = Integer.parseInt(request.getParameter("lastmessage"));
-
+		boolean ispressed = Boolean.parseBoolean((request.getParameter("ispressed")));
+		
+		// for timer and prompt
+		if(ispressed){
+			db.startGame(chatid);
+		} 
+		
+		ChatRoomPromptAndTime chat = db.getPromptAndTime(chatid);
+		if(chat.hasStarted()){
+			gameHasStarted = ", \"gameHasStarted\":[  {\"prompt\": \""+ chat.getPrompt()+"\", \"timeleft\": \""+ chat.getTimeRemaining()+"\"} ]";
+		}
+		
 		List<Message> messages = db.getAllMessage(chatid);
 		
 		if(messages.size() > 0){
@@ -83,8 +96,10 @@ public class ChatRoomRefreshController extends HttpServlet {
 			spectators = spectators.substring(2);
 
 		//text = StringEscapeUtils.escapeJson(text);
-		System.out.println("{\"messages\":[ " + text + "], \"players\":[ " + players + "], \"spectators\":[ " + spectators + "], \"lastmessage\":[ {\"lastmessage\": "+ lastmessage+"}]}");
-		response.getWriter().println("{\"messages\":[ " + text + "], \"players\":[ " + players + "], \"spectators\":[ " + spectators + "], \"lastmessage\":[  {\"message\": "+ lastmessage+"} ]}");
+		System.out.println("{\"messages\":[ " + text + "], \"players\":[ " + players + "], \"spectators\":[ " + spectators + "], \"lastmessage\":[  {\"message\": "+ lastmessage+"} ]"
+				+ ", \"ispressed\":[  {\"ispressed\": "+ ispressed+"} ]"+ gameHasStarted +"}");
+		response.getWriter().println("{\"messages\":[ " + text + "], \"players\":[ " + players + "], \"spectators\":[ " + spectators + "], \"lastmessage\":[  {\"message\": "+ lastmessage+"} ]"
+				+ ", \"ispressed\":[  {\"ispressed\": "+ ispressed+"} ]"+ gameHasStarted +"}");
 		
 		response.getWriter().flush();
 	}
