@@ -475,4 +475,43 @@ public class DBService {
 		
 		return null;
 	}	
+	public boolean updateUserTurn(int chatid, String username){
+		System.out.println("Enters updateUserTurn");
+
+		try{
+			String url="jdbc:mysql://localhost:3306/improvonline";
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
+			String sql = "SELECT usernamewithturn"
+		    		+ " FROM chatrooms where idChatrooms = " + chatid;
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()){
+				if(username.equals(rs.getString(1))){
+					ArrayList<String> usernames = new ArrayList<>();
+					String sql2 = "SELECT DISTINCT username"
+				    		+ " FROM playing where idChatroom = " + chatid;
+					PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+					ResultSet rs2 = pstmt2.executeQuery();
+					while(rs2.next())
+						usernames.add(rs2.getString(1));
+					String nextUsername = usernames.get((usernames.indexOf(username)+1) % usernames.size());
+
+					String sql1 = "UPDATE chatrooms"
+							+ " SET usernamewithturn = ?"
+							+ " WHERE idchatrooms = ?";
+					
+					PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+					pstmt1.setString(1, nextUsername);
+					pstmt1.setInt(2, chatid);
+					pstmt1.executeUpdate();
+				}
+			}
+			conn.close();
+			return true;
+	    } catch (Exception e) {
+	        System.out.println("NEW ERROR!:::Error message: "+ e); 
+		}
+		return false;
+	}
 }

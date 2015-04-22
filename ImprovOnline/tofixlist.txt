@@ -31,7 +31,7 @@ handle enter key sa chat. dpat pwede press lang enter
 Limit the size of a posted message.Limit the maximum number of characters in the textarea—again by trapping onkeydown.
 ayosin si start button
 remove settings if naglalaro
-
+pag hindi nila turn. dapat iba yung font or something
 responsiveness:
 footer. mas maganda sana kung nakadikit lang siya sa end
 who's turn. pag sarili. my turn dapat

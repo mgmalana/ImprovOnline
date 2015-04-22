@@ -45,7 +45,7 @@ public class ChatRoomController extends HttpServlet {
 		String currentTime = sdf.format(dt);
 		if(!text.equals(""))
 			db.postMessage((String)session.getAttribute("user"), text, currentTime, chatid);
-
+		db.updateUserTurn(chatid, (String) session.getAttribute("user"));
 	}
 
 }
