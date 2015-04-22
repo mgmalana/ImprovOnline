@@ -13,25 +13,24 @@ import service.DBService;
 /**
  * Servlet implementation class loginController
  */
-@WebServlet("/updateSettings")
-public class UpdateSettingsController extends HttpServlet {
+@WebServlet("/getCurrentGame")
+public class GetCurrentGameController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateSettingsController() {
+    public GetCurrentGameController() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("enters getcurrentgame");
 		DBService db = new DBService();
 		int chatId = Integer.parseInt(request.getParameter("idchat"));
-		int time = Integer.parseInt(request.getParameter("newtime").charAt(0) + "");
-		String gametype = request.getParameter("newgametype");
 		
-		db.updateSettings(chatId, time, gametype);
+		response.getWriter().print(db.getGameType(chatId));
 		
 	}
 	

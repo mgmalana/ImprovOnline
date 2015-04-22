@@ -1,9 +1,8 @@
 add spectator // kasi nilalaagay niya lang sa playing palagi
 //dont forget onunload rin ng spectator
-pag magchange  ng settings. refresh na lang lahat. kasi lazy. or idk how to implement this shit
 spectator can suggest prompts
+may bug ata sa messages. too lazy to fix
 forgot password
-naguupdate ang turn kahit blank ang sinend
 
 UI PROBS:
 pwede sana view ulit instructions during game.

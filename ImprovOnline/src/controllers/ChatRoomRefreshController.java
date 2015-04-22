@@ -109,9 +109,9 @@ public class ChatRoomRefreshController extends HttpServlet {
 
 		//text = StringEscapeUtils.escapeJson(text);
 		System.out.println("{\"messages\":[ " + text + "], \"players\":[ " + players + "], \"spectators\":[ " + spectators + "], \"lastmessage\":[  {\"message\": "+ lastmessage+"} ]"
-				+ ", \"ispressed\":[  {\"ispressed\": "+ ispressed+"} ]"+ gameHasStarted +"}");
+				+ ", \"ispressed\":[  {\"ispressed\": "+ ispressed+"} ]" + ", \"gametype\": \""+ db.getGameType(chatid) +"\""+ gameHasStarted +"}");
 		response.getWriter().println("{\"messages\":[ " + text + "], \"players\":[ " + players + "], \"spectators\":[ " + spectators + "], \"lastmessage\":[  {\"message\": "+ lastmessage+"} ]"
-				+ ", \"ispressed\":[  {\"ispressed\": "+ ispressed+"} ]"+ gameHasStarted +"}");
+				+ ", \"ispressed\":[  {\"ispressed\": "+ ispressed+"} ]" + ", \"gametype\": \""+ db.getGameType(chatid) +"\""+ gameHasStarted +"}");
 		
 		response.getWriter().flush();
 	}

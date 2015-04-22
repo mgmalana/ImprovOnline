@@ -23,17 +23,6 @@
 				overflow:hidden;
 			}
 			
-			<c:if test="${param['roomGame'] == 'Word Association'}">
-				#prompty {
-				    display: none;
-				}
-			</c:if>
-			
-			<c:if test="${param['roomGame'] != 'Alphabet Game'}">
-				#currenty {
-				    display: none;
-				}
-			</c:if>
 						
 		</style>
 		<script src="js/jquery-2.1.1.js"></script>
@@ -102,7 +91,8 @@
 				</div>
 				<div id="lower-right">
 					<p>
-						Current Game: <c:out value="${chatRoom.game}"></c:out><br>
+						Current Game: <span id = "currentlyplaying"><c:out value="${chatRoom.game}"></c:out></span><br>
+					
 					</p>
 					<hr>
 					<p>
@@ -150,7 +140,7 @@
 			</select>
 			<br><br><br>
 			Game Type: 
-			<select>
+			<select id = "changegametype">
 				<option>Word Association</option>
 				<option>Yes, And</option>
 				<option>Alphabet Game</option>
@@ -169,25 +159,43 @@
 		var xmlObjectRefresh;
 		var exitObject;
 		var changePrompt;
+		var changeGame;
 		var myVar;
 		var myVar1;
 		var lastmessage = 0;
 		var isStartButtonPressed = false;
+		var currentGame = '<c:out value="${param['roomGame']}"></c:out>';
+		
+		function updateCSS(){
+			if(currentGame == 'Word Association')
+				document.getElementById("prompty").style.display = "none";
+			else
+				document.getElementById("prompty").style.display = "block";
+			if(currentGame != 'Alphabet Game')
+				document.getElementById("currenty").style.display = "none";
+			else
+				document.getElementById("currenty").style.display = "block";
+			
+			document.getElementById("currentlyplaying").innerHTML = currentGame;
+			
+		}
+		
 		
 		function start(){
 			if(window.XMLHttpRequest){
 				xmlObject = new XMLHttpRequest();
 				xmlObjectRefresh = new XMLHttpRequest();
 				exitObject = new XMLHttpRequest();
+				changeGame = new XMLHttpRequest();
 			}
 			else if(window.ActiveXObject){
 				xmlObject = new ActiveXObject("MICROSOFT.XMLHTTP");
 				xmlObjectRefresh = new ActiveXObject("MICROSOFT.XMLHTTP");
 				exitObject = new ActiveXObject("MICROSOFT.XMLHTTP");
-
+				changeGame = new ActiveXObject("MICROSOFT.XMLHTTP");
 			}
-			//set timer			
 			refresh();
+			updateCSS();
 		}
 		
 		function startgame(){
@@ -212,7 +220,7 @@
 			switch(xmlObject.readyState){
 				case 4:
 					if(xmlObject.status == 200){
-						if('<c:out value="${param['roomGame']}"></c:out>' == 'Yes, And')
+						if(currentGame == 'Yes, And')
 							document.getElementById("chatinput").value = "Yes, And";
 						else
 							document.getElementById("chatinput").value = "";
@@ -227,7 +235,7 @@
 		}
 		
 		function refreshPrompt(){
-			if('<c:out value="${param['roomGame']}"></c:out>' == 'Cards')
+			if(currentGame == 'Cards')
 				myVar1 = setInterval(changePrompt, 10000);
 		}
 		
@@ -276,16 +284,19 @@
 					if(obj.hasOwnProperty("gameHasStarted")){
 						document.getElementById("gameprompt").innerHTML = obj.gameHasStarted[0].prompt;
 						document.getElementById("timeleft").innerHTML = obj.gameHasStarted[0].timeleft;
-						if('<c:out value="${param['roomGame']}"></c:out>' != 'Cards'){
+						if(currentGame != 'Cards'){
 							if(obj.gameHasStarted[0].usernameturn.length < 2){
 								document.getElementById("userturn").innerHTML = "";
 							}
 							else
 								document.getElementById("userturn").innerHTML = obj.gameHasStarted[0].usernameturn+"'s turn";
-						} if('<c:out value="${param['roomGame']}"></c:out>' == 'Alphabet Game'){
+						} if(currentGame == 'Alphabet Game'){
 							document.getElementById("currentLetter").innerHTML = obj.gameHasStarted[0].currentLetter;
 						}
 					}
+					
+					currentGame = obj.gametype;
+					updateCSS();
 				}
 			break;
 		}
@@ -313,8 +324,9 @@
 		function updateSettings(){
 			var request = "GET";
 			var getSelected = $('#changegametime').find(":selected").text();
-			alert(getSelected);
-			var url = "updateSettings?idchat=" + '<c:out value="${idchat}"></c:out>'+"&newtime=" + getSelected;
+			
+			var getgametype = $('#changegametype').find(":selected").text();
+			var url = "updateSettings?idchat=" + '<c:out value="${idchat}"></c:out>'+"&newtime=" + getSelected+"&newgametype=" + getgametype;
 			var isAsynchronous = true;
 			
 			xmlObject.open(request, url, isAsynchronous);

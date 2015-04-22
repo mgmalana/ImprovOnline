@@ -568,7 +568,7 @@ public class DBService {
 		return false;
 	}
 
-	public boolean updateSettings(int chatId, int time){
+	public boolean updateSettings(int chatId, int time, String gametype){
 		System.out.println("Enters updateSettings");
 
 		try{
@@ -577,18 +577,42 @@ public class DBService {
 			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 			
 			String sql1 = "UPDATE chatrooms"
-					+ " SET gametime = ?"
+					+ " SET gametime = ?, currentgame = ?"
 					+ " WHERE idchatrooms = ?";
 			
 			PreparedStatement pstmt1 = conn.prepareStatement(sql1);
 			pstmt1.setInt(1, time);
-			pstmt1.setInt(2, chatId);
+			pstmt1.setString(2, gametype);
+			pstmt1.setInt(3, chatId);
 			pstmt1.executeUpdate();
 			
 		} catch (Exception e) {
 		        System.out.println("NEW ERROR!:::Error message: "+ e); 
 		}
 		return false;	
+	}
+	
+	public String getGameType(int id){
+
+		System.out.println("Enters getRoom");
+		try{
+			String url="jdbc:mysql://localhost:3306/improvonline";
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
+		    String sql = "SELECT currentGame"
+		    		+ " FROM chatrooms"
+		    		+ " WHERE idChatrooms = " + id;
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next())
+				return rs.getString(1);
+				
+			conn.close();
+	    } catch (Exception e) {
+	        System.out.println("NEW ERROR!:::Error message: "+ e); 
+		} 
+		
+		return "";
 	}
 	
 }
