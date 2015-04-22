@@ -1,10 +1,10 @@
-time
+timer // meron na time elapsed. ugh to lazy for life. will finish this laters
+add spectator // kasi nilalaagay niya lang sa playing palagi
+//dont forget onunload rin ng spectator
 turn based
+prompt - dapat same sila lahat lol
 not allow to enter if full
-room instructions to not show if refreshed
 cannot enter if not logged in
-logs out the guest if exited
-removes the player if exit the window
 a player can play on multiple windows
 forgot password
 fix all the headers of the pages
@@ -13,6 +13,7 @@ if guest registered
 index - not started / started game. di pa nahahandle
 
 UI PROBS:
+room instructions to not show if refreshed
 maybe change the registration if wrong. i mean di lang siya read. like password must contain blabla
 if empty ang username or password, error
 fix the username sa header

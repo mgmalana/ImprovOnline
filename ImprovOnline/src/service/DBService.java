@@ -364,4 +364,28 @@ public class DBService {
 		
 		return chatUsers;
 	}
+	
+	public boolean removePlayerToRoom(String username, int chatId){
+		System.out.println("Enters removePlayerToRoom");
+
+		try{
+			String url="jdbc:mysql://localhost:3306/improvonline";
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+
+			String sql = "DELETE FROM playing where username = '" +username +"' AND idChatroom = " + chatId;
+			System.out.println(sql);
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			pstmt.executeUpdate();
+			conn.close();
+			System.out.println("Remove player from room successful");
+			return true;
+		}
+		catch(Exception e){
+			System.out.println("removePlayerToRoom error: " + e.getMessage());
+		}
+		
+		return false;
+	}
 }

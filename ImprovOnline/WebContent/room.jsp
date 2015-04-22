@@ -50,7 +50,7 @@
 		
 		</script>
 	</head>
-	<body onload="start()">
+	<body onload="start()" onbeforeunload="exituser()">
 		<div style="text-align:center">
 			<div id="horizontalbar">
 				<div class="float-left">
@@ -83,7 +83,7 @@
 				<div id="upper-right">
 					<center>
 						<p> Time Remaining:</p>
-						<h2> 1:00 </h2>
+						<h2 id = timeleft></h2>
 					</center>	
 				</div>
 				<div id="lower-right">
@@ -150,26 +150,35 @@
 	<script>
 		var xmlObject;
 		var xmlObjectRefresh;
+		var exitObject;
 		var myVar;
 		var lastmessage = 0;
-		
+		var start;
+		var elapsed;
 		
 		function start(){
 			if(window.XMLHttpRequest){
 				xmlObject = new XMLHttpRequest();
 				xmlObjectRefresh = new XMLHttpRequest();
+				exitObject = new XMLHttpRequest();
 			}
 			else if(window.ActiveXObject){
 				xmlObject = new ActiveXObject("MICROSOFT.XMLHTTP");
 				xmlObjectRefresh = new ActiveXObject("MICROSOFT.XMLHTTP");
+				exitObject = new ActiveXObject("MICROSOFT.XMLHTTP");
+
 			}
+			//set timer
+			start = new Date().getTime();
+			elapsed = '0.0';
+			
 			refresh();
 		}
 		
 		
 		function sendToServer(){
 			var request = "GET";
-			var url = "chatroom?text=" + document.getElementById("chatinput").value + "&idchat=" + '<c:out value="${idchat}"></c:out>';;
+			var url = "chatroom?text=" + document.getElementById("chatinput").value + "&idchat=" + '<c:out value="${idchat}"></c:out>';
 			var isAsynchronous = true;
 			
 			xmlObject.open(request, url, isAsynchronous);
@@ -216,7 +225,9 @@
 					////the users
 					out = "";
 					for(i = 0; i < obj.players.length; i++)
-						out += obj.players[i].username +", ";	
+						out += obj.players[i].username +", ";
+					if(out.length > 2)
+						out = out.substring(0, out.length - 2);
 					document.getElementById("players").innerHTML = out;
 					document.getElementById("numplayers").innerHTML = obj.players.length;
 
@@ -228,12 +239,29 @@
 					
 					//change the lastmessage id
 					lastmessage = obj.lastmessage[0].message;
+
+					var time = new Date().getTime() - start;
+					elapsed = Math.floor(time / 100) / 10;
+				    if(Math.round(elapsed) == elapsed)
+				    	elapsed += '.0';
+					document.getElementById("timeleft").innerHTML = elapsed;
 					
 				}
 			break;
 		}
 			
 		}		
+		
+		function exituser(){
+			var request = "GET";
+			var url = "exituser?idchat=" + '<c:out value="${idchat}"></c:out>';
+			var isAsynchronous = false;
+			
+			exitObject.open(request, url, isAsynchronous);
+			exitObject.send(null);
+		}
+		
+		
 	
 	</script>
 	
