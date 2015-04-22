@@ -401,14 +401,15 @@ public class DBService {
 			String currentTime = sdf.format(dt);
 			
 			String sql = "UPDATE chatrooms"
-					+ " SET hasGameStarted = ?, prompt = ?, starttime = ?, usernamewithturn = ?"
+					+ " SET hasGameStarted = ?, prompt = ?, starttime = ?, usernamewithturn = ?, currentLetter = ?"
 					+ " WHERE idchatrooms = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setBoolean(1, true);
 			pstmt.setString(2, prompt);
 			pstmt.setString(3, currentTime);
 			pstmt.setString(4, usernamewithturn);
-			pstmt.setInt(5, chatId);
+			pstmt.setString(5, "A");
+			pstmt.setInt(6, chatId);
 
 			pstmt.executeUpdate();
 			conn.close();
@@ -429,13 +430,13 @@ public class DBService {
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
-			String sql = "SELECT prompt, hasgamestarted, starttime, gametime, usernamewithturn"
+			String sql = "SELECT prompt, hasgamestarted, starttime, gametime, usernamewithturn, currentLetter"
 		    		+ " FROM chatrooms where idChatrooms = " + chatid;
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next())
 				return new ChatRoomPromptAndTime(rs.getBoolean("hasgamestarted"),
-						rs.getString("prompt"), rs.getDouble("gametime"), rs.getTimestamp("starttime"), rs.getString("usernamewithturn"));
+						rs.getString("prompt"), rs.getDouble("gametime"), rs.getTimestamp("starttime"), rs.getString("usernamewithturn"), rs.getString("currentLetter"));
 			
 			conn.close();
 	    } catch (Exception e) {
@@ -451,28 +452,37 @@ public class DBService {
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
-			String sql = "SELECT usernamewithturn"
+			String sql = "SELECT usernamewithturn, currentLetter"
 		    		+ " FROM chatrooms where idChatrooms = " + chatid;
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()){
 				if(username.equals(rs.getString(1))){
+					Character lastletter =' ';
+					lastletter = rs.getString(2).charAt(0);
+					if(lastletter == 'Z')
+						lastletter = 'A';
+					else
+						lastletter++;
 					ArrayList<String> usernames = new ArrayList<>();
 					String sql2 = "SELECT DISTINCT username"
 				    		+ " FROM playing where idChatroom = " + chatid;
 					PreparedStatement pstmt2 = conn.prepareStatement(sql2);
 					ResultSet rs2 = pstmt2.executeQuery();
-					while(rs2.next())
+					while(rs2.next()){
 						usernames.add(rs2.getString(1));
+					}
 					String nextUsername = usernames.get((usernames.indexOf(username)+1) % usernames.size());
-
+					
+					
 					String sql1 = "UPDATE chatrooms"
-							+ " SET usernamewithturn = ?"
+							+ " SET usernamewithturn = ?, currentletter = ?"
 							+ " WHERE idchatrooms = ?";
 					
 					PreparedStatement pstmt1 = conn.prepareStatement(sql1);
 					pstmt1.setString(1, nextUsername);
-					pstmt1.setInt(2, chatid);
+					pstmt1.setString(2, lastletter + "");
+					pstmt1.setInt(3, chatid);
 					pstmt1.executeUpdate();
 				}
 			}

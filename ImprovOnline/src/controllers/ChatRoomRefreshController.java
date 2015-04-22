@@ -56,10 +56,10 @@ public class ChatRoomRefreshController extends HttpServlet {
 		if(chat.hasStarted()){
 			if(chat.getTimeRemaining().contains("-")){
 				db.stopGame(chatid);
-				gameHasStarted = ", \"gameHasStarted\":[  {\"prompt\": \"\", \"timeleft\": \"\", \"usernameturn\": \"\"} ]";
+				gameHasStarted = ", \"gameHasStarted\":[  {\"prompt\": \"\", \"timeleft\": \"\", \"usernameturn\": \"\", \"currentLetter\": \"\"} ]";
 			}
 			else
-			gameHasStarted = ", \"gameHasStarted\":[  {\"prompt\": \""+ chat.getPrompt()+"\", \"timeleft\": \""+ chat.getTimeRemaining()+"\", \"usernameturn\": \""+ chat.getTurn()+"\"} ]";
+			gameHasStarted = ", \"gameHasStarted\":[  {\"prompt\": \""+ chat.getPrompt()+"\", \"timeleft\": \""+ chat.getTimeRemaining()+"\", \"usernameturn\": \""+ chat.getTurn()+"\", \"currentLetter\": \""+ chat.getCurrentLetter()+"\"} ]";
 		}
 		
 		List<Message> messages = db.getAllMessage(chatid);

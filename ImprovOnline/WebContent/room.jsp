@@ -28,6 +28,12 @@
 				    display: none;
 				}
 			</c:if>
+			
+			<c:if test="${param['roomGame'] != 'Alphabet Game'}">
+				#currenty {
+				    display: none;
+				}
+			</c:if>
 						
 		</style>
 		<script src="js/jquery-2.1.1.js"></script>
@@ -107,8 +113,8 @@
 						<div id = "spectators"></div>
 						<span id="prompty">Prompt: <span id="gameprompt"></span></span>
 						<div id= "userturn"></div>
+						<div id = "currenty">Current Letter: <span id="currentLetter"></span></div>					
 						<input type="button" class="btn" id="startbutton" value="Start" onclick="startgame()">
-					
 				</div>
 				
 			</div>
@@ -273,6 +279,8 @@
 							}
 							else
 								document.getElementById("userturn").innerHTML = obj.gameHasStarted[0].usernameturn+"'s turn";
+						} if('<c:out value="${param['roomGame']}"></c:out>' == 'Alphabet Game'){
+							document.getElementById("currentLetter").innerHTML = obj.gameHasStarted[0].currentLetter;
 						}
 					}
 				}

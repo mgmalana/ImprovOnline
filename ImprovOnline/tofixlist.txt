@@ -1,4 +1,3 @@
-alphabet game na lang wew
 add spectator // kasi nilalaagay niya lang sa playing palagi
 //dont forget onunload rin ng spectator
 handle if your turn and exited
@@ -15,7 +14,7 @@ if kaya sana. may 1 minute intervals or something before the game can start agai
 clear chat database //i dont know when tho
 forgot password
 pag magchange  ng settings. refresh na lang lahat. kasi lazy
-
+naguupdate ang turn kahit blank ang sinend
 UI PROBS:
 pwede sana view ulit instructions during game.
 room instructions to not show if refreshed
