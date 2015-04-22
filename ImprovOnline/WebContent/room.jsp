@@ -249,7 +249,10 @@
 					if(obj.hasOwnProperty("gameHasStarted")){
 						document.getElementById("gameprompt").innerHTML = obj.gameHasStarted[0].prompt;
 						document.getElementById("timeleft").innerHTML = obj.gameHasStarted[0].timeleft;
-						document.getElementById("userturn").innerHTML = obj.gameHasStarted[0].usernameturn+"'s turn";
+						if(obj.gameHasStarted[0].usernameturn.length < 2)
+							document.getElementById("userturn").innerHTML = "";
+						else
+							document.getElementById("userturn").innerHTML = obj.gameHasStarted[0].usernameturn+"'s turn";
 						
 					}
 				}

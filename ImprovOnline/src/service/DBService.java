@@ -514,4 +514,26 @@ public class DBService {
 		}
 		return false;
 	}
+	public boolean stopGame(int chatId){
+		System.out.println("Enters stopGame");
+
+		try{
+			String url="jdbc:mysql://localhost:3306/improvonline";
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			
+			String sql1 = "UPDATE chatrooms"
+					+ " SET hasgamestarted = ?"
+					+ " WHERE idchatrooms = ?";
+			
+			PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+			pstmt1.setBoolean(1, false);
+			pstmt1.setInt(2, chatId);
+			pstmt1.executeUpdate();
+			
+		} catch (Exception e) {
+		        System.out.println("NEW ERROR!:::Error message: "+ e); 
+		}
+		return false;	
+	}
 }
