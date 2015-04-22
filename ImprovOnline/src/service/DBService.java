@@ -192,38 +192,7 @@ public class DBService {
 		return chatRoom;
 	}
 	
-	public String getRandomPrompt(){
-
-		try{
-			System.out.println("Enters getRandomPrompts");
-
-			String url="jdbc:mysql://localhost:3306/improvonline";
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
-		    String sql = "SELECT prompt\n" + 
-		    		"  FROM prompts AS r1 JOIN\n" + 
-		    		"       (SELECT CEIL(RAND() *\n" + 
-		    		"                     (SELECT MAX(idPrompts)\n" + 
-		    		"                        FROM prompts)) AS idPrompts)\n" + 
-		    		"        AS r2\n" + 
-		    		" WHERE r1.idPrompts >= r2.idPrompts\n" + 
-		    		" ORDER BY r1.idPrompts ASC\n" + 
-		    		" LIMIT 1";
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()){
-				return (String)rs.getObject(1);
-			} else{
-				System.out.println("Error: Prompt not found");
-			}
-			
-			conn.close();
-	    } catch (Exception e) {
-	        System.out.println("NEW ERROR!:::Error message: "+ e); 
-		} 
-		
-		return null;
-	}
+	
 	public boolean postMessage(String username, String message, String datetime, int idchat){
 		System.out.println("enter post message");
 		try{

@@ -80,8 +80,6 @@ public class RoomController extends HttpServlet {
 		request.setAttribute("idchat", chatRoomId);
 		System.out.println("session attribute idchat: " + session.getAttribute("idchat"));
 		
-		System.out.println(db.getRandomPrompt());
-		request.setAttribute("prompt", db.getRandomPrompt());
 		request.setAttribute("chatRoom", db.getRoom(Integer.parseInt(request.getParameter("idRoom"))));
 		RequestDispatcher dispatcher = request.getRequestDispatcher("room.jsp");
 		dispatcher.forward(request, response);
