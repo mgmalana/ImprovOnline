@@ -42,6 +42,9 @@ public class LobbyController extends HttpServlet {
 			System.out.println("No created rooms");
 			response.sendRedirect("login.jsp");	
 		}
+		for(ChatRoom chatroom: chatRooms)
+			if(chatroom.getNumPlayers() == 0 && chatroom.isHasGameStarted())
+				db.stopGame(chatroom.getId());
 	}
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
