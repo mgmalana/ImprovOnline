@@ -1,4 +1,4 @@
-different gamesss
+alphabet game na lang wew
 add spectator // kasi nilalaagay niya lang sa playing palagi
 //dont forget onunload rin ng spectator
 handle if your turn and exited
