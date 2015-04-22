@@ -412,6 +412,17 @@ public class DBService {
 			pstmt.setInt(6, chatId);
 
 			pstmt.executeUpdate();
+			
+			System.out.println("clearing messages");
+			String sql3 = "DELETE FROM message where chat_id = " + chatId;
+			PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+			pstmt3.executeUpdate();
+			
+			
+			
+			
+			
+			
 			conn.close();
 			System.out.println("startGame successful");
 			return true;

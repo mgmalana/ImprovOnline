@@ -2,7 +2,6 @@ add spectator // kasi nilalaagay niya lang sa playing palagi
 //dont forget onunload rin ng spectator
 pag magchange  ng settings. refresh na lang lahat. kasi lazy. or idk how to implement this shit
 spectator can suggest prompts
-di dapat pwede 1 player and two windows same game?
 if kaya sana. may 1 minute intervals or something before the game can start again
 clear chat database //baka when new round. pweds na yan
 forgot password
@@ -11,7 +10,7 @@ naguupdate ang turn kahit blank ang sinend
 UI PROBS:
 pwede sana view ulit instructions during game.
 room instructions to not show if refreshed
-maybe change the registration if wrong. i mean di lang siya read. like password must contain blabla
+maybe change the registration if wrong. i mean di lang siya red. like password must contain blabla
 if empty ang username or password, error
 fix the username sa header
 if press ang logo dpat go back to index

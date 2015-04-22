@@ -69,16 +69,6 @@ public class ChatRoomRefreshController extends HttpServlet {
 		List<Message> messages = db.getAllMessage(chatid);
 		
 		if(messages.size() > 0){
-			if(lastmessage == 0)
-				lastmessage = messages.get(messages.size()-1).getId();
-			for(int i = messages.size()-1; i >= 0; i--) ///load the new messages lang
-				if(messages.get(i).getId() <= lastmessage){
-					messages = messages.subList(i + 1, messages.size());
-					break;
-				} else
-					lastmessage = messages.get(i).getId();
-			
-			System.out.println(messages.size());
 			if(messages.size() > 0){
 				text += "{\"username\":\""+ messages.get(0).getUsername() +"\", \"message\":\""
 							+ messages.get(0).getMessage() +"\"}";

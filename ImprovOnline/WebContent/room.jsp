@@ -248,7 +248,7 @@
 						out += obj.messages[i].username +": "+ obj.messages[i].message+"\n";
 					//// you can edit the style or something if you want	
 					chatbox = document.getElementById("chatbox");
-					chatbox.innerHTML = chatbox.value + out;
+					chatbox.innerHTML = out;
 
 					////the users
 					out = "";
