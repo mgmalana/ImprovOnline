@@ -50,6 +50,7 @@
 			
 			function hideSettings(){
 				$('#settingspopup').hide();
+				updateSettings();
 			}
 			
 			function showSettings(){
@@ -141,7 +142,7 @@
 			<h2> Settings </h2>
 			<br><br>
 			Game Time: 
-			<select>
+			<select id = "changegametime">
 				<option>1:00</option>
 				<option>2:00</option>
 				<option>3:00</option>
@@ -309,6 +310,16 @@
 			exitObject.send(null);
 		}
 	
+		function updateSettings(){
+			var request = "GET";
+			var getSelected = $('#changegametime').find(":selected").text();
+			alert(getSelected);
+			var url = "updateSettings?idchat=" + '<c:out value="${idchat}"></c:out>'+"&newtime=" + getSelected;
+			var isAsynchronous = true;
+			
+			xmlObject.open(request, url, isAsynchronous);
+			xmlObject.send(null);
+		}
 	</script>
 	
 </html>

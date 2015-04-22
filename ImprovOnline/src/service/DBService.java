@@ -567,4 +567,28 @@ public class DBService {
 		
 		return false;
 	}
+
+	public boolean updateSettings(int chatId, int time){
+		System.out.println("Enters updateSettings");
+
+		try{
+			String url="jdbc:mysql://localhost:3306/improvonline";
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			
+			String sql1 = "UPDATE chatrooms"
+					+ " SET gametime = ?"
+					+ " WHERE idchatrooms = ?";
+			
+			PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+			pstmt1.setInt(1, time);
+			pstmt1.setInt(2, chatId);
+			pstmt1.executeUpdate();
+			
+		} catch (Exception e) {
+		        System.out.println("NEW ERROR!:::Error message: "+ e); 
+		}
+		return false;	
+	}
+	
 }
