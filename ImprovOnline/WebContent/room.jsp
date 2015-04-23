@@ -74,13 +74,12 @@
 				}
 			}
 			
-			function suggestPrompt(){
-				var suggestion = prompt("Please enter a prompt suggestion: ", "");
-			}
+			
 			
 		</script>
 	</head>
 	<body onload="start()" onbeforeunload="exituser()">
+	
 		<div style="text-align:center">
 			<div id="horizontalbar">
 				<div class="float-left">
@@ -100,6 +99,12 @@
 		</div>
 		<div id="spacer">
 		</div>
+		
+		<input type = "hidden" id = "hiddenusertype" value = "<c:out value="${param['gametype']}"></c:out>">
+								
+		
+		
+		
 		<div id="divbody" style="margin-top: 1%">
 			<div id="lefty">
 				<br>
@@ -201,13 +206,25 @@
 		var xmlObject;
 		var xmlObjectRefresh;
 		var exitObject;
-		var changePrompt;
 		var changeGame;
 		var myVar;
 		var myVar1;
 		var lastmessage = 0;
 		var isStartButtonPressed = false;
 		var currentGame = '<c:out value="${param['roomGame']}"></c:out>';
+		function suggestPrompt(){
+			var suggestion = prompt("Please enter a prompt suggestion: ", "");
+			var request = "GET";
+			var url = "suggestPrompt?prompt="+suggestion;
+			var isAsynchronous = true;
+			
+
+			
+			
+			changeGame.open(request, url, isAsynchronous);  ///reuse this object :)))
+			changeGame.send(null);
+		}
+		
 		
 		function updateCSS(){
 			if(currentGame == 'Word Association')
@@ -260,20 +277,31 @@
 			}
 		}
 		
+		
 		function receiveFromServer(){
 			switch(xmlObject.readyState){
 				case 4:
 					if(xmlObject.status == 200){
+						if(lastmessage == 0){
+							chatbox = document.getElementById("chatbox");
+							var temp = "";
+							if(document.getElementById("hiddenusertype").value == "spectate")
+								temp += "[spectator] ";
+							temp += "<c:out value="${sessionScope.user}"></c:out>";
+							temp += ": " + document.getElementById("chatinput").value;
+							chatbox.innerHTML = temp;
+						}
 						if(currentGame == 'Yes, And')
 							document.getElementById("chatinput").value = "Yes, And";
 						else
 							document.getElementById("chatinput").value = "";
 						chatbox.scrollTop = chatbox.scrollHeight;
+						
 					}
 				break;
 			}
 		}
-		
+
 		function refresh(){
 			myVar = setInterval(sendToServerRefresh, 1000);
 		}
@@ -299,11 +327,24 @@
 				if(xmlObjectRefresh.status == 200){
 					var out = "";
 					var obj = JSON.parse(xmlObjectRefresh.responseText);
-					for(i = 0; i < obj.messages.length; i++)
-						out += obj.messages[i].username +": "+ obj.messages[i].message+"\n";
+					for(i = 0; i < obj.messages.length; i++){
+						
+						//this long if is for the spectatorss
+						var playertemplist = "" + document.getElementById("players").innerHTML;
+						var temp = "";
+						if(document.getElementById("numplayers").innerHTML > 1){
+							if(playertemplist.indexOf(obj.messages[i].username + ",") == -1 &&
+									(playertemplist.indexOf(", " + obj.messages[i].username)) == -1) 
+								temp = "[spectator] ";
+						} else {
+							if(playertemplist.indexOf(obj.messages[i].username) == -1)
+								temp = "[spectator] ";
+						}
+						out += temp + obj.messages[i].username +": "+ obj.messages[i].message+"\n";
+					}
 					//// you can edit the style or something if you want	
 					chatbox = document.getElementById("chatbox");
-					chatbox.innerHTML = out;
+					chatbox.innerHTML = chatbox.value + out;
 
 					////the users
 					out = "";
@@ -335,7 +376,12 @@
 								document.getElementById("userturn").innerHTML = "";
 							}
 							else{
-								document.getElementById("userturn").innerHTML = obj.gameHasStarted[0].usernameturn+"'s turn";
+								if("<c:out value="${sessionScope.user}"></c:out>" == obj.gameHasStarted[0].usernameturn)
+									document.getElementById("userturn").innerHTML = "<b>Your turn!</b>";
+								else
+									document.getElementById("userturn").innerHTML = "<b>"+obj.gameHasStarted[0].usernameturn+"'s turn</b>";
+	
+
 							}
 						} 
 						if(currentGame == 'Alphabet Game'){

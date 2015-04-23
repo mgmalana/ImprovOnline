@@ -22,6 +22,10 @@ public class ChatRoomPromptAndTime {
 		this.turn = turn;
 		this.currentLetter = currentLetter;
 	}
+	
+	public ChatRoomPromptAndTime(boolean hasStarted){
+		this.hasStarted = hasStarted;
+	} 
 	public boolean hasStarted() {
 		return hasStarted;
 	}

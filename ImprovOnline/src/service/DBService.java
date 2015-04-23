@@ -9,7 +9,7 @@ import models.*;
 
 public class DBService {
 	String dbUsername = "root";
-	String dbPassword = "1234";
+	String dbPassword = "";
 	
 	public boolean registerUser(User user){
 		System.out.println("Enter registerUser");
@@ -444,7 +444,7 @@ public class DBService {
 	        System.out.println("NEW ERROR!:::Error message: "+ e); 
 		}
 		
-		return null;
+		return new ChatRoomPromptAndTime(false);
 	}	
 	
 	public boolean updateUserTurn(int chatid, String username){
@@ -474,18 +474,20 @@ public class DBService {
 					while(rs2.next()){
 						usernames.add(rs2.getString(1));
 					}
-					String nextUsername = usernames.get((usernames.indexOf(username)+1) % usernames.size());
+					if(usernames.size()>0){
+						String nextUsername = usernames.get((usernames.indexOf(username)+1) % usernames.size());
 					
 					
-					String sql1 = "UPDATE chatrooms"
-							+ " SET usernamewithturn = ?, currentletter = ?"
-							+ " WHERE idchatrooms = ?";
-					
-					PreparedStatement pstmt1 = conn.prepareStatement(sql1);
-					pstmt1.setString(1, nextUsername);
-					pstmt1.setString(2, lastletter + "");
-					pstmt1.setInt(3, chatid);
-					pstmt1.executeUpdate();
+						String sql1 = "UPDATE chatrooms"
+								+ " SET usernamewithturn = ?, currentletter = ?"
+								+ " WHERE idchatrooms = ?";
+						
+						PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+						pstmt1.setString(1, nextUsername);
+						pstmt1.setString(2, lastletter + "");
+						pstmt1.setInt(3, chatid);
+						pstmt1.executeUpdate();
+					}
 				}
 			}
 			conn.close();
@@ -663,5 +665,24 @@ public class DBService {
 		
 		return false;
 	} 
+	
+	public boolean addPrompt(String prompt){
+		System.out.println("Enters addPrompt");
+
+		try{
+			String url="jdbc:mysql://localhost:3306/improvonline";
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			String sql = "insert into prompts(prompt) values (?)";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, prompt);
+			pstmt.executeUpdate();
+		}
+		catch(Exception e){
+			System.out.println("addPrompt error: " + e.getMessage());
+		}
+		
+		return false;
+	}
 	
 }
