@@ -30,9 +30,16 @@ public class ExitUserController extends HttpServlet {
 		HttpSession session = request.getSession();
 		DBService db = new DBService();
 		int chatId = Integer.parseInt(request.getParameter("idchat"));
-		
-		db.removePlayerToRoom((String)session.getAttribute("user"), chatId);
-		
+		try{
+			db.removePlayerToRoom((String)session.getAttribute("user"), chatId);
+		}catch(Exception e){
+			
+		}
+		try{
+			db.removeSpectatorToRoom((String)session.getAttribute("user"), chatId);
+		}catch(Exception e){
+			
+		}
 	}
 	
 

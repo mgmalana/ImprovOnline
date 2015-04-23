@@ -28,7 +28,7 @@
 		<div style="text-align:center">
 		<div id="horizontalbar">
 			<div class="float-left">
-				ImprovOnline
+				<a href="index">ImprovOnline</a>
 			</div>
 			<div class="float-right">
 				<a href="registration.jsp">Sign Up</a>

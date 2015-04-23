@@ -39,6 +39,7 @@
 	left:0px;
 	opacity: 0.8;
     filter: alpha(opacity=80);
+    color: white;
 }
 
 .float-left{

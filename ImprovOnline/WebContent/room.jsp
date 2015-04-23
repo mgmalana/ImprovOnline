@@ -27,14 +27,35 @@
 		</style>
 		<script src="js/jquery-2.1.1.js"></script>
 		<script type="text/javascript">
-			function hide(){
+			$(document).ready(function hideSettings(){
+				$('#settingspopup').hide();
+			})		
+			
+			function hideInstructions(){
 				$('.popup').hide();
-				sendToServer();
 			}
 			
-			function spectate(){
-				$('.popup').hide();
+			function showInstructions(){
+				$('.popup').show();
+			}
+			
+			
+			function hideButtonSettings(){
 				$('#settings').hide();
+			}
+			
+			function hideButtonStart(){
+				$('#startbutton').hide();
+				
+			}
+			
+			function showButtonStart(){
+				$('#startbutton').show();
+				
+			}
+			
+			function showButtonSettings(){
+				$('#settings').show();
 			}
 			
 			function hideSettings(){
@@ -46,23 +67,29 @@
 				$('#settingspopup').show();
 			}
 			
-			$(document).ready(function hideSettings(){
-				$('#settingspopup').hide();
-			})
 			
-		
+			function handle(e){
+				if(e.keyCode === 13){
+					sendToServer();
+				}
+			}
+			
+			function suggestPrompt(){
+				var suggestion = prompt("Please enter a prompt suggestion: ", "");
+			}
+			
 		</script>
 	</head>
 	<body onload="start()" onbeforeunload="exituser()">
 		<div style="text-align:center">
 			<div id="horizontalbar">
 				<div class="float-left">
-					ImprovOnline
+					<a href="index">ImprovOnline</a>
 				</div>
 				<div class="float-right">
 					<c:out value="${sessionScope.user}"></c:out>
 					<c:if test="${sessionScope.usertype == 'registered'}" >
-					<a href="logout">Log Out</a>
+						<a href="logout">Log Out</a>
 					</c:if>
 					<c:if test="${sessionScope.usertype == 'guest'}" >
 					<a href="registration.jsp">Sign Up</a>
@@ -71,63 +98,79 @@
 				</div>
 			</div>
 		</div>
-		
-		<div id="divbody">
+		<div id="spacer">
+		</div>
+		<div id="divbody" style="margin-top: 1%">
 			<div id="lefty">
 				<br>
-				<span id="inlinedapat"><h5 id="roomTitle" name="roomTitle"> <c:out value="${chatRoom.name}"></c:out></h5><input type="button" class='btn' id="settings" value="Settings" onclick="showSettings()"></span>
+				<span id="inlinedapat"><h5 id="roomTitle" name="roomTitle"> Room: <c:out value="${chatRoom.name}"></c:out></h5></span>
 				<div id="chatboxdiv">
 					<textarea readonly="readonly" name="chatbox" id="chatbox"></textarea>
 				</div>
-				<input type="text" name="chatinput" id="chatinput">
+			
+				<input type="text" name="chatinput" id="chatinput" onkeypress="handle(event)" maxlength="60">
 				<input type="button" class="btn" id="sendbutton" value="Send" onclick="sendToServer()">
+			
 			</div>
 			<div id="righty">
-				<div id="upper-right">
-					<center>
-						<p> Time Remaining:</p>
-						<h2 id = timeleft></h2>
-					</center>	
-				</div>
-				<div id="lower-right">
-					<p>
-						Current Game: <span id = "currentlyplaying"><c:out value="${chatRoom.game}"></c:out></span><br>
+				<div id="upper-right" style="text-align: center">
 					
-					</p>
+						<p> Time Remaining </p>
+						<h2 id ="timeleft" style="display:inline"></h2>
+				</div>
+				
+				<div id="lower-right">
+					<div style="text-align:center; margin: 15px">
+						<p style="font-size: 20px; display:inline; text-decoration:underline "><span id = "currentlyplaying"><c:out value="${chatRoom.game}"></c:out></span></p><br>
+						<p style="font-size: 12px; display:inline">Current Game</p>
+						
+					</div>
+					<div id="mid-right" style="text-align: center">
+						<c:if test="${(param['gametype']) == 'play'}" >
+							<input type="button" class="btn" id="startbutton" value="Start" onclick="startgame()">
+							<input type="button" class='btn' id="settings" value="Settings" onclick="showSettings()">
+						</c:if>
+						<c:if test="${(param['gametype']) == 'spectate'}" >
+							<input type="button" class="btn" id="suggestbutton" value="Suggest Prompt" onclick="suggestPrompt()">
+						</c:if>
+						<input type="button" class="btn" id="Instructionsbutton" value="Instructions" onclick="showInstructions()">
+					</div>
 					<hr>
-					<p>
-						Players: (<span id ="numplayers"></span>)<br>
-						<div id = "players"></div>
-					</p>
+					
+						<p style="display:inline"><b>Players</b> (<p id="numplayers" style="display:inline"></p><p style="display:inline">):</p> </p>
+						<p id = "players" style="display:inline"></p>
+					
 					<hr>
-						<p>Spectators:  (<span id ="numspectators"></span>)</p><br>
-						<div id = "spectators"></div>
+						<p><b>Spectators</b> (<span id ="numspectators"></span>): </p>
+						<p id = "spectators" style="display:inline"></p>
+					<hr>
 						<span id="prompty">Prompt: <span id="gameprompt"></span></span>
 						<div id= "userturn"></div>
 						<div id = "currenty">Current Letter: <span id="currentLetter"></span></div>					
-						<input type="button" class="btn" id="startbutton" value="Start" onclick="startgame()">
+						
 				</div>
 				
 			</div>
 		</div>
-		<span id="popup" class="popup"><center>
-			<br><br><br>
-			<table>
+		<div id="popup" class="popup">
+			<br><br>
+			<table class="popuptable" border="0">
 			<tr>
-				<td colspan='2'><textarea id="instructions" readonly='readonly'>
-		<c:out value="${param['roomGame']}"></c:out> 
-		<c:out value="${requestScope.instructions}"></c:out> 
-			</textarea></td>
+				<td colspan='2' style="text-align: center">
+					<textarea id="instructions" readonly='readonly'>
+						<c:out value="${param['roomGame']}"></c:out> 
+						<c:out value="${requestScope.instructions}"></c:out> 
+					</textarea>
+					<br>
+					<input type="button" class="btn" value="Continue" id="play" onclick="hideInstructions()">
+				</td>
 			</tr>
-			<tr>
-				<td><center><input type="button" class="btn" value="Play" id="play" onclick="hide()"></center></td>
-				<td><center><input type="button" class="btn" value="Spectate" id="spectate" onclick="spectate()"></center></td>
-			</tr>
+
 			</table>
-			</center>
-		</span>
-		<span id="settingspopup">
-			<center>
+			
+		</div>
+		<div id="settingspopup" style="text-align: center">
+			
 			<br><br>
 			<h2> Settings </h2>
 			<br><br>
@@ -149,8 +192,8 @@
 			</select>
 			<br><br><br>
 			<input type="button" class="btn" value="Ok" id="okSettings" onclick="hideSettings()">
-			</center>
-		</span>
+			
+		</div>
 		
 		<p align="right" id="footer"> Created by: Kate Lacsamana, MG Malana, Albert Rivera &copy; 2015</p>
 	</body>
@@ -201,6 +244,7 @@
 		function startgame(){
 			isStartButtonPressed = true;
 			refreshPrompt();
+			
 		}
 		
 		
@@ -282,17 +326,24 @@
 					isStartButtonPressed = false;
 					
 					if(obj.hasOwnProperty("gameHasStarted")){
+						hideButtonSettings();
+						hideButtonStart();
 						document.getElementById("gameprompt").innerHTML = obj.gameHasStarted[0].prompt;
 						document.getElementById("timeleft").innerHTML = obj.gameHasStarted[0].timeleft;
 						if(currentGame != 'Cards'){
 							if(obj.gameHasStarted[0].usernameturn.length < 2){
 								document.getElementById("userturn").innerHTML = "";
 							}
-							else
+							else{
 								document.getElementById("userturn").innerHTML = obj.gameHasStarted[0].usernameturn+"'s turn";
-						} if(currentGame == 'Alphabet Game'){
+							}
+						} 
+						if(currentGame == 'Alphabet Game'){
 							document.getElementById("currentLetter").innerHTML = obj.gameHasStarted[0].currentLetter;
 						}
+					}else{
+						showButtonSettings();
+						showButtonStart();
 					}
 					
 					currentGame = obj.gametype;

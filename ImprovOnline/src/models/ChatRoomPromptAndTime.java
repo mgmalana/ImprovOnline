@@ -43,7 +43,11 @@ public class ChatRoomPromptAndTime {
 	
 	public String getTimeRemaining(){
 		double time	= timestarted.getTime() + gametime * 60000 - (new java.util.Date()).getTime();
-		return ((int)time / (60 * 1000)) +":"+(int)((time/1000)%60);
+		int mins = (int)((time/1000)%60);
+		if(mins >= 10)
+			return ((int)time / (60 * 1000)) +":"+ mins;
+		else
+			return ((int)time / (60 * 1000)) +":0"+ mins;
 	} 
 	
 	

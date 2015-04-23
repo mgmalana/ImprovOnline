@@ -35,10 +35,13 @@ public class RoomController extends HttpServlet {
 		ChatRoom  chatroom = db.getRoom(Integer.parseInt(request.getParameter("idRoom")));
 		
 		//if full
-		if(chatroom.getMaxPlayers() <= chatroom.getNumPlayers() || chatroom.getMaxSpectators() <= chatroom.getNumSpectators())
-			response.sendRedirect("index.jsp");	
-		
-		
+		if(request.getParameter("gametype").equals("play")){
+			if(chatroom.getMaxPlayers() <= chatroom.getNumPlayers())
+				response.sendRedirect("index");	
+		}else if(request.getParameter("gametype").equals("spectate")){
+			if(chatroom.getMaxSpectators() <= chatroom.getNumSpectators())
+				response.sendRedirect("index");	
+		}
 		if(request.getParameter("roomGame").equals("Alphabet Game")){
 			request.setAttribute("instructions", "Each player takes turns in giving lines to create a scene. But here's the catch - the players must work together to spell the alphabet using the first letters of the first word of each turn!\n" + 
 					"\n" + 
@@ -84,7 +87,15 @@ public class RoomController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		int chatRoomId = Integer.parseInt(request.getParameter("idRoom"));
-		db.addPlayerToRoom((String)session.getAttribute("user"), chatRoomId);
+		
+		if(request.getParameter("gametype").equals("play")){
+			db.addPlayerToRoom((String)session.getAttribute("user"), chatRoomId);
+			
+		}else if(request.getParameter("gametype").equals("spectate")){
+			db.addSpectatorToRoom((String)session.getAttribute("user"), chatRoomId);
+			
+		}
+		
 		request.setAttribute("idchat", chatRoomId);
 		System.out.println("session attribute idchat: " + session.getAttribute("idchat"));
 		

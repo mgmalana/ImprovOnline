@@ -6,7 +6,7 @@ h5, #settings{
 	display:inline;
 }
 #settings{
-	float:right;
+	
 	margin-bottom: 2px;
 }
 
@@ -29,22 +29,18 @@ h5, #settings{
 
 #instructions{
 	margin-top: 3%;
-	width: 100%;
-	height: 85%;
+	width: 90%;
+	height: 100%;
 	font-size: 17px;
 	resize:none;
 }
-table{
-	width:94%;
-	height: 100%;
-}
+
 
 table tr td{
 	margin: 10px;
 	padding: 5px;
 }
 #popup{
-	
 	height:100%;
 	width:100%;
 	background-color: #cc0000;
@@ -52,6 +48,15 @@ table tr td{
 	top:0px;
 	left:0px;
 	z-index:9999;
+}
+
+#popup, #popup tr, #popup td{
+	text-align: center;
+}
+
+.popuptable{
+	width:100%;
+	height: 60%;
 }
 
 #lefty{
@@ -87,15 +92,20 @@ table tr td{
 #upper-right{
 	border: 1px solid #d3d3d3;
 	margin-top: 10%;
-	margin-bottom: 5%;
+	margin-bottom: 1%;
 	padding-top: 30%;
-	height: 17%;
+	height: 15%;
 	padding: 8px;
 }
 
+#mid-right{
+	margin-bottom: 0%;
+}
+
+
 #lower-right{
 	border: 1px solid #d3d3d3;
-	height: 60%;
+	height:55%;
 	padding: 8px;
 }
 

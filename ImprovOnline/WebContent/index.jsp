@@ -12,7 +12,7 @@
         <link type="text/css" rel="stylesheet" href="css/global.css" />
         <link rel="stylesheet" href="carousel/csss_engine1/style.css">
     	<link rel="stylesheet" type="text/css" href="css/header.css">		
-		
+		<link rel="stylesheet" type="text/css" href="css/button.css">
 		<script>
 		
 		</script>
@@ -21,7 +21,7 @@
 		<div style="text-align:center">
 			<div id="horizontalbar">
 				<div class="float-left">
-					ImprovOnline
+					<a href="index">ImprovOnline</a>
 				</div>
 				<div class="float-right">
 					<c:out value="${sessionScope.user}"></c:out>
@@ -34,6 +34,7 @@
 					</c:if>
 				</div>
 			</div>
+			<div id="spacer"></div>
 			
 			<div id="left-container">
 				<div class='csslider1 autoplay '>
@@ -99,7 +100,7 @@
 							<div class="room">
 								
 									<div class="roomDetails">
-										<c:out value="${curItem.name}"></c:out> <br><c:out value="${curItem.game}"></c:out>
+										<b><c:out value="${curItem.name}"></c:out> </b><br><c:out value="${curItem.game}"></c:out>
 									</div>
 									<div class="roomStatus">
 										<c:choose>
@@ -113,14 +114,23 @@
 									</div>
 								
 									<div class="roomCount">
-										Players: <c:out value="${curItem.numPlayers}"></c:out>/<c:out value="${curItem.maxPlayers}"></c:out>
-										Spectators: <c:out value="${curItem.numSpectators}"></c:out>/<c:out value="${curItem.maxSpectators}"></c:out>
+										<table>
+											<tr><td>Players:</td><td> <c:out value="${curItem.numPlayers}"></c:out> / <c:out value="${curItem.maxPlayers}"></c:out></td></tr>
+											<tr><td>Spectators:</td><td> <c:out value="${curItem.numSpectators}"></c:out> / <c:out value="${curItem.maxSpectators}"></c:out></td></tr>
+										</table>
 									</div>
-									<div class="joinRoom">
-										<form action = "room" method = "get">
-										<input type ="hidden" name = "idRoom" value = "<c:out value="${curItem.id}"></c:out>">
-										<input type ="hidden" name = "roomGame" value = "<c:out value="${curItem.game}"></c:out>">
-										<input type ="submit" value="JOIN ROOM">
+									<div class="joinRoom" style="display:inline">
+										<form action = "room" method = "get" style="display:inline">
+											<input type ="hidden" name = "idRoom" value = "<c:out value="${curItem.id}"></c:out>">
+											<input type ="hidden" name = "roomGame" value = "<c:out value="${curItem.game}"></c:out>">
+											<input type ="hidden" name = "gametype" value="play">
+											<input type ="submit" class="btn" value="JOIN ROOM">
+										</form>
+										<form action = "room" method = "get" style="display:inline">
+											<input type ="hidden" name = "idRoom" value = "<c:out value="${curItem.id}"></c:out>">
+											<input type ="hidden" name = "roomGame" value = "<c:out value="${curItem.game}"></c:out>">
+											<input type ="hidden" name = "gametype" value="spectate">
+											<input type ="submit" class="btn" value="SPECTATE">
 										</form>
 									</div>
 									<div class="blah"></div>
@@ -135,8 +145,11 @@
 			
 		</div>
 		<br>
-		
-		<p align="right" id="footer"> Created by: Kate Lacsamana, MG Malana, Albert Rivera &copy; 2015</p>
+		<div id="spacer">
+			
+			<p align="right" id="footer"> Created by: Kate Lacsamana, MG Malana, Albert Rivera &copy; 2015</p>
+	
+		</div>
 	</body>
 	
 </html>

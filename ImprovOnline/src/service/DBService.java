@@ -9,7 +9,7 @@ import models.*;
 
 public class DBService {
 	String dbUsername = "root";
-	String dbPassword = "";
+	String dbPassword = "1234";
 	
 	public boolean registerUser(User user){
 		System.out.println("Enter registerUser");
@@ -192,7 +192,6 @@ public class DBService {
 		return chatRoom;
 	}
 	
-	
 	public boolean postMessage(String username, String message, String datetime, int idchat){
 		System.out.println("enter post message");
 		try{
@@ -322,7 +321,7 @@ public class DBService {
 			ResultSet rs2 = pstmt2.executeQuery();
 			
 			while(rs2.next())
-				chatUsers.put((String)rs2.getObject(1), true);
+				chatUsers.put((String)rs2.getObject(1), false);
 
 			conn.close();
 			
@@ -447,6 +446,7 @@ public class DBService {
 		
 		return null;
 	}	
+	
 	public boolean updateUserTurn(int chatid, String username){
 		System.out.println("Enters updateUserTurn");
 
@@ -495,6 +495,7 @@ public class DBService {
 		}
 		return false;
 	}
+	
 	public boolean stopGame(int chatId){
 		System.out.println("Enters stopGame");
 
@@ -611,5 +612,56 @@ public class DBService {
 		
 		return "";
 	}
+	
+	public boolean addSpectatorToRoom(String username, int chatId){
+		System.out.println("Enters SpectatorToRoom");
+
+		try{
+			String url="jdbc:mysql://localhost:3306/improvonline";
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			Statement statement = conn.createStatement();
+			String dbQuery = "insert into spectating(idChatroom, username) values ('" 
+					+ chatId + "','" + username + "')";
+			int i = statement.executeUpdate(dbQuery);
+			conn.close();
+			if(i>0){ //spectating successful
+				System.out.println("Spectating successful!");
+				return true;
+			}
+			else{ //spectating failed
+				System.out.println("Spectating failed.");
+				return false;
+			}
+		}
+		catch(Exception e){
+			System.out.println("Playing error: " + e.getMessage());
+		}
+		
+		return false;
+	}
+
+	public boolean removeSpectatorToRoom(String username, int chatId){
+		System.out.println("Enters removeSpectator");
+
+		try{
+			String url="jdbc:mysql://localhost:3306/improvonline";
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+
+			String sql = "DELETE FROM spectating where username = '" +username +"' AND idChatroom = " + chatId;
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			pstmt.executeUpdate();
+			conn.close();
+			System.out.println("Remove spectator from room successful");
+			return true;
+		}
+		catch(Exception e){
+			System.out.println("removeSpectatorFromRoom error: " + e.getMessage());
+		}
+		
+		return false;
+	} 
 	
 }

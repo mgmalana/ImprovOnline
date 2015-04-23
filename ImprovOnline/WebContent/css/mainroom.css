@@ -40,7 +40,13 @@
 	position: relative;
 	clear: both;
 	float: left;
+	font-size: 15px;
 }
+
+.roomCount table tr td{
+	color:white;
+}
+
 
 .joinRoom{
 	position: relative;
