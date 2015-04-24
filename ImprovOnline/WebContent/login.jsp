@@ -25,35 +25,39 @@
 		</script>
 	</head>
 	<body>
-		<div style="text-align:center">
-		<div id="horizontalbar">
-			<div class="float-left">
-				<a href="index">ImprovOnline</a>
-			</div>
-			<div class="float-right">
-				<a href="registration.jsp">Sign Up</a>
-			</div>
-		</div>
-		
-		
-		<div id="logo">
-					<h1>ImprovOnline</h1>
-					<form action="login" method="post">
-						<p> <font color = "red"> ${error } </font> </p>
-						<p> Username: <input type = "text" name="username" class="textbox"> </p>
-						<p> Password: <input type = "password" name="password" class="textbox"> </p>
-						<p> <a href="forgotpassword.jsp" id="forgotpass">Forgot Password?</a></p>
-						<input type = "hidden" name = "usertype">
-						<input type="submit" class="btn" value="Login" onclick="userlogin();">
-						<input type="submit" class="btn" value="Play as Guest" onclick="userplayasguest();">
-					</form>
-						<br>
-						<p> <font color = "red"> ${error2 } </font> </p>
+		<div id="headwrapper" style="height: 50%">
+			<div style="text-align:center">
+			<div id="horizontalbar">
+				<div class="float-left">
+					<a href="index">ImprovOnline</a>
 				</div>
-		
-		
-		
+				<div class="float-right">
+					<a href="registration.jsp">Sign Up</a>
+				</div>
+			</div>
+			
+			
+			<div id="logo">
+						<h1>ImprovOnline</h1>
+						<form action="login" method="post">
+							<p> <font color = "red"> ${error } </font> </p>
+							<p> Username: <input type = "text" name="username" class="textbox"> </p>
+							<p> Password: <input type = "password" name="password" class="textbox"> </p>
+							<p> </p>
+							<input type = "hidden" name = "usertype">
+							<input type="submit" class="btn" value="Login" onclick="userlogin();">
+							<input type="submit" class="btn" value="Play as Guest" onclick="userplayasguest();">
+						</form>
+							<br>
+							<p> <font color = "red"> ${error2 } </font> </p>
+					</div>
+			
+			
+			
+			</div>
 		</div>
-		<p align="right" id="footer"> Created by: Kate Lacsamana, MG Malana, Albert Rivera &copy; 2015</p>
+		<div id="footwrapper" style="margin-top: 0px">
+			<p align="right" id="footer" style="margin-top: 0px"> Created by: Kate Lacsamana, MG Malana, Albert Rivera &copy; 2015</p>
+		</div>
 	</body>
 </html>

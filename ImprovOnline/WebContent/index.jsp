@@ -13,11 +13,12 @@
         <link rel="stylesheet" href="carousel/csss_engine1/style.css">
     	<link rel="stylesheet" type="text/css" href="css/header.css">		
 		<link rel="stylesheet" type="text/css" href="css/button.css">
-		<script>
+		<style type="text/css">
 		
-		</script>
+		</style>
 	</head>
 	<body>
+	<div id="headwrapper">
 		<div style="text-align:center">
 			<div id="horizontalbar">
 				<div class="float-left">
@@ -144,11 +145,9 @@
 			
 			
 		</div>
-		<br>
-		<div id="spacer">
-			
-			<p align="right" id="footer"> Created by: Kate Lacsamana, MG Malana, Albert Rivera &copy; 2015</p>
-	
+		</div>
+		<div id="footwrapper">
+				<p align="right" id="footer">Created by: Kate Lacsamana, MG Malana, Albert Rivera &copy; 2015</p>
 		</div>
 	</body>
 	

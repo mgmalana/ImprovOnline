@@ -10,7 +10,18 @@ a{
 	text-decoration: none;
 }
 
+#headwrapper{
+	height: 80%;
+}
 
+#footwrapper{
+	height: 3%;
+}
+
+#footwrapper p{
+	position: relative;
+	bottom: 0px;
+}
 
 #spacer{
 	height: 10px; 

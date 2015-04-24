@@ -9,7 +9,7 @@ import models.*;
 
 public class DBService {
 	String dbUsername = "root";
-	String dbPassword = "";
+	String dbPassword = "1234";
 	
 	public boolean registerUser(User user){
 		System.out.println("Enter registerUser");

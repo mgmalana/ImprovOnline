@@ -79,7 +79,7 @@
 		</script>
 	</head>
 	<body onload="start()" onbeforeunload="exituser()">
-	
+	<div id="headwrapper">
 		<div style="text-align:center">
 			<div id="horizontalbar">
 				<div class="float-left">
@@ -199,8 +199,10 @@
 			<input type="button" class="btn" value="Ok" id="okSettings" onclick="hideSettings()">
 			
 		</div>
-		
-		<p align="right" id="footer"> Created by: Kate Lacsamana, MG Malana, Albert Rivera &copy; 2015</p>
+		</div>
+		<div id="footwrapper">
+			<p align="right" id="footer"> Created by: Kate Lacsamana, MG Malana, Albert Rivera &copy; 2015</p>
+		</div>
 	</body>
 	<script>
 		var xmlObject;

@@ -52,7 +52,7 @@
 	<div id="logo">
 			<div id="horizontalbar">
 				<div class="float-left">
-					ImprovOnline
+					<a href="index">ImprovOnline</a>
 				</div>
 				
 			</div>
