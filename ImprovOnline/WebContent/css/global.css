@@ -10,18 +10,6 @@ a{
 	text-decoration: none;
 }
 
-#headwrapper{
-	height: 80%;
-}
-
-#footwrapper{
-	height: 3%;
-}
-
-#footwrapper p{
-	position: relative;
-	bottom: 0px;
-}
 
 #spacer{
 	height: 10px; 
@@ -48,6 +36,8 @@ a{
 #footer{
 	font-size: 12px;
 	clear: both;
+	position: fixed;
+	height: 5%;
 	bottom: 0px;
 	border-top: 1px black ridge;
 	margin-top: 100px;

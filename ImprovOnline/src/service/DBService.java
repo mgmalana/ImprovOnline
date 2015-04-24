@@ -9,14 +9,15 @@ import models.*;
 
 public class DBService {
 	String dbUsername = "root";
-	String dbPassword = "1234";
-	
+	String dbPassword = "";
 	public boolean registerUser(User user){
 		System.out.println("Enter registerUser");
+		Connection conn = null;
+
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 			Statement statement = conn.createStatement();
 			String dbQuery = "insert into users(username, password, question, answer) values ('" 
 					+ user.getUsername() + "','" + user.getPassword() + "','" 
@@ -34,6 +35,15 @@ public class DBService {
 		}
 		catch(Exception e){
 			System.out.println("Registration error: " + e.getMessage());
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		
 		return false;
@@ -41,6 +51,8 @@ public class DBService {
 	
 	public String registerGuest(){
 		System.out.println("Enter registerGuest");
+		Connection conn = null;
+
 
 		Random rand = new Random();
 		int id = rand.nextInt(999999) + 1;
@@ -50,7 +62,7 @@ public class DBService {
 			try{
 				String url="jdbc:mysql://localhost:3306/improvonline";
 				Class.forName("com.mysql.jdbc.Driver");
-				Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+				conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 				Statement statement = conn.createStatement();
 				String dbQuery = "insert into guests (username) "
 						+ "values ('" + username + "')";
@@ -72,6 +84,15 @@ public class DBService {
 				if(!(e.getMessage().contains("Duplicate entry") && e.getMessage().contains("key 'username_UNIQUE'"))){
 					registered = true; //if error is not duplicate entry don't try again
 				}
+			}finally{
+				 if(conn!=null){
+					 try {
+						conn.close();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				 }
 			}
 		}
 		return null;
@@ -80,11 +101,12 @@ public class DBService {
 
 	public boolean validateUser(String username, String password){
 		System.out.println("Enter validateUser");
+		Connection conn = null;
 
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 			Statement statement = conn.createStatement();
 			String dbQuery = "select * from users where username like " + "'" + username + "'" + " and password like " + "'" + password + "'";
 			System.out.println("validateuser: " + dbQuery);
@@ -102,19 +124,29 @@ public class DBService {
 		}
 		catch(Exception e){
 			System.out.println(e.getMessage());
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		return false;
 	}
 	
 	public ArrayList<ChatRoom> getRooms(){
 		System.out.println("Enter getRooms");
+		Connection conn = null;
 
 		ArrayList<ChatRoom> chatRooms = new ArrayList<>();
 		try{
 			
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
 		    String sql = "SELECT *"
 		    		+ " FROM chatrooms";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -143,19 +175,29 @@ public class DBService {
 			conn.close();
 	    } catch (Exception e) {
 	        System.out.println("NEW ERROR!:::Error message: "+ e); 
-		} 
+		} finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
+		}
 		
 		return chatRooms;
 	}
 	
 	public ChatRoom getRoom(int id){
+		Connection conn = null;
 
 		ChatRoom chatRoom = null;
 		System.out.println("Enters getRoom");
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
 		    String sql = "SELECT *"
 		    		+ " FROM chatrooms"
 		    		+ " WHERE idChatrooms = " + id;
@@ -187,17 +229,28 @@ public class DBService {
 			conn.close();
 	    } catch (Exception e) {
 	        System.out.println("NEW ERROR!:::Error message: "+ e); 
-		} 
+		} finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
+		}
 		
 		return chatRoom;
 	}
 	
 	public boolean postMessage(String username, String message, String datetime, int idchat){
 		System.out.println("enter post message");
+		Connection conn = null;
+
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 
 			String sql = "INSERT INTO message (chat_id, user_name, message, post_time) \n"
 					+ "VALUES (?, ?, ?, ?);";
@@ -214,19 +267,29 @@ public class DBService {
 		}
 		catch(Exception e){
 			System.out.println("posting message error: " + e.getMessage());
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 			return false;
 	} 
 	
 	public ArrayList<Message> getAllMessage(int chatid){
 		System.out.println("Enters getAllMessage");
+		Connection conn = null;
 
 		ArrayList<Message> messages = new ArrayList<>();
 		
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
 		    String sql = "SELECT *"
 		    		+ " FROM message "
 		    		+ " WHERE chat_id = " + chatid
@@ -240,6 +303,15 @@ public class DBService {
 			conn.close();
 	    } catch (Exception e) {
 	        System.out.println("NEW ERROR!:::Error message: "+ e); 
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		
 		return messages;
@@ -247,11 +319,12 @@ public class DBService {
 	
 	public boolean addPlayerToRoom(String username, int chatId){
 		System.out.println("Enters addPlayerToRoom");
+		Connection conn = null;
 
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 			Statement statement = conn.createStatement();
 			String dbQuery = "insert into playing(idChatroom, username) values ('" 
 					+ chatId + "','" + username + "')";
@@ -268,6 +341,15 @@ public class DBService {
 		}
 		catch(Exception e){
 			System.out.println("Playing error: " + e.getMessage());
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		
 		return false;
@@ -275,13 +357,14 @@ public class DBService {
 
 	public int getRoomPlayerCount(int chatid){
 		System.out.println("Enters room player count");
+		Connection conn = null;
 
 		int numPlayer = 0;
 
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
 			String sql1 = "SELECT COUNT(DISTINCT username)"
 		    		+ " FROM playing where idChatroom = " + chatid;
 			PreparedStatement pstmt1 = conn.prepareStatement(sql1);
@@ -292,6 +375,15 @@ public class DBService {
 			conn.close();
 	    } catch (Exception e) {
 	        System.out.println("NEW ERROR!:::Error message: "+ e); 
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		
 		return numPlayer;
@@ -299,12 +391,13 @@ public class DBService {
 	
 	public HashMap <String, Boolean> getUsers(int id){ // string username, boolean isplayer
 		System.out.println("Enters getUsers");
+		Connection conn = null;
 
 		HashMap <String, Boolean> chatUsers = new HashMap<>();
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
 			
 			
 			String sql1 = "SELECT DISTINCT username"
@@ -328,18 +421,28 @@ public class DBService {
 			return chatUsers;
 	    } catch (Exception e) {
 	        System.out.println("NEW ERROR!:::Error message: "+ e); 
-		} 
+		} finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
+		}
 		
 		return chatUsers;
 	}
 	
 	public boolean removePlayerToRoom(String username, int chatId){
 		System.out.println("Enters removePlayerToRoom");
+		Connection conn = null;
 
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 
 			String sql = "DELETE FROM playing where username = '" +username +"' AND idChatroom = " + chatId;
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -351,6 +454,15 @@ public class DBService {
 		}
 		catch(Exception e){
 			System.out.println("removePlayerToRoom error: " + e.getMessage());
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		
 		return false;
@@ -358,11 +470,12 @@ public class DBService {
 	
 	public boolean startGame(int chatId){
 		System.out.println("Enters startGame");
+		Connection conn = null;
 
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 			String prompt = "";
 			String usernamewithturn ="";
 			
@@ -419,6 +532,15 @@ public class DBService {
 		}
 		catch(Exception e){
 			System.out.println("startGame error: " + e.getMessage());
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		
 		return false;
@@ -426,11 +548,12 @@ public class DBService {
 	
 	public ChatRoomPromptAndTime getPromptAndTime(int chatid){
 		System.out.println("Enters getPromptAndTime");
+		Connection conn = null;
 
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
 			String sql = "SELECT prompt, hasgamestarted, starttime, gametime, usernamewithturn, currentLetter"
 		    		+ " FROM chatrooms where idChatrooms = " + chatid;
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -442,6 +565,15 @@ public class DBService {
 			conn.close();
 	    } catch (Exception e) {
 	        System.out.println("NEW ERROR!:::Error message: "+ e); 
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		
 		return new ChatRoomPromptAndTime(false);
@@ -449,11 +581,12 @@ public class DBService {
 	
 	public boolean updateUserTurn(int chatid, String username){
 		System.out.println("Enters updateUserTurn");
+		Connection conn = null;
 
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
 			String sql = "SELECT usernamewithturn, currentLetter"
 		    		+ " FROM chatrooms where idChatrooms = " + chatid;
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -494,17 +627,27 @@ public class DBService {
 			return true;
 	    } catch (Exception e) {
 	        System.out.println("NEW ERROR!:::Error message: "+ e); 
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		return false;
 	}
 	
 	public boolean stopGame(int chatId){
 		System.out.println("Enters stopGame");
+		Connection conn = null;
 
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 			
 			String sql1 = "UPDATE chatrooms"
 					+ " SET hasgamestarted = ?"
@@ -523,15 +666,26 @@ public class DBService {
 			
 		} catch (Exception e) {
 		        System.out.println("NEW ERROR!:::Error message: "+ e); 
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		return false;	
 	}
 	
 	public boolean changePrompt(int chatId){
+		Connection conn = null;
+
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 			String prompt = "";
 			
 			//PROMPT
@@ -563,6 +717,15 @@ public class DBService {
 		}
 		catch(Exception e){
 			System.out.println("changePrompt error: " + e.getMessage());
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		
 		return false;
@@ -570,11 +733,12 @@ public class DBService {
 
 	public boolean updateSettings(int chatId, int time, String gametype){
 		System.out.println("Enters updateSettings");
+		Connection conn = null;
 
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 			
 			String sql1 = "UPDATE chatrooms"
 					+ " SET gametime = ?, currentgame = ?"
@@ -588,17 +752,27 @@ public class DBService {
 			
 		} catch (Exception e) {
 		        System.out.println("NEW ERROR!:::Error message: "+ e); 
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		return false;	
 	}
 	
 	public String getGameType(int id){
+		Connection conn = null;
 
 		System.out.println("Enters getRoom");
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);		
 		    String sql = "SELECT currentGame"
 		    		+ " FROM chatrooms"
 		    		+ " WHERE idChatrooms = " + id;
@@ -610,18 +784,28 @@ public class DBService {
 			conn.close();
 	    } catch (Exception e) {
 	        System.out.println("NEW ERROR!:::Error message: "+ e); 
-		} 
+		} finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
+		}
 		
 		return "";
 	}
 	
 	public boolean addSpectatorToRoom(String username, int chatId){
 		System.out.println("Enters SpectatorToRoom");
+		Connection conn = null;
 
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 			Statement statement = conn.createStatement();
 			String dbQuery = "insert into spectating(idChatroom, username) values ('" 
 					+ chatId + "','" + username + "')";
@@ -638,6 +822,15 @@ public class DBService {
 		}
 		catch(Exception e){
 			System.out.println("Playing error: " + e.getMessage());
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		
 		return false;
@@ -645,11 +838,12 @@ public class DBService {
 
 	public boolean removeSpectatorToRoom(String username, int chatId){
 		System.out.println("Enters removeSpectator");
+		Connection conn = null;
 
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 
 			String sql = "DELETE FROM spectating where username = '" +username +"' AND idChatroom = " + chatId;
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -661,6 +855,15 @@ public class DBService {
 		}
 		catch(Exception e){
 			System.out.println("removeSpectatorFromRoom error: " + e.getMessage());
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		
 		return false;
@@ -668,11 +871,12 @@ public class DBService {
 	
 	public boolean addPrompt(String prompt){
 		System.out.println("Enters addPrompt");
+		Connection conn = null;
 
 		try{
 			String url="jdbc:mysql://localhost:3306/improvonline";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
+			conn = DriverManager.getConnection(url, dbUsername, dbPassword);
 			String sql = "insert into prompts(prompt) values (?)";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, prompt);
@@ -680,6 +884,15 @@ public class DBService {
 		}
 		catch(Exception e){
 			System.out.println("addPrompt error: " + e.getMessage());
+		}finally{
+			 if(conn!=null){
+				 try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 		}
 		
 		return false;

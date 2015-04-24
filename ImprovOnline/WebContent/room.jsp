@@ -291,7 +291,7 @@
 								temp += "[spectator] ";
 							temp += "<c:out value="${sessionScope.user}"></c:out>";
 							temp += ": " + document.getElementById("chatinput").value;
-							chatbox.innerHTML = temp;
+							chatbox.innerHTML = temp + "\n";
 						}
 						if(currentGame == 'Yes, And')
 							document.getElementById("chatinput").value = "Yes, And";
@@ -360,6 +360,9 @@
 					out = "";
 					for(i = 0; i < obj.spectators.length; i++)
 						out += obj.spectators[i].username +", ";	
+					if(out.length > 2)
+						out = out.substring(0, out.length - 2);
+
 					document.getElementById("spectators").innerHTML = out;
 					document.getElementById("numspectators").innerHTML = obj.spectators.length;
 					
