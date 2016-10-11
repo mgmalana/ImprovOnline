@@ -1,0 +1,3 @@
+# ImprovOnline
+
+ImprovOnline is a web application that allows users to play short form improv games,   commonly used as improvisational theatre exercises, with other users through a written   medium -- chat. Improvisational theatre or improv is a form of theater wherein the actors do not   follow a script. Most improv performances may follow a certain format but the dialogue, action,   story, and characters are collaboratively created by the players on the spot as the performance   goes on. While many improv exercises are used by actors to develop their skills, the   techniques featured in the exercises can also be useful to non-performers as a way to develop   communication skills, creative problem solving and teamwork abilities.
